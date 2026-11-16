@@ -1,10 +1,6 @@
 from functools import wraps
-from flask import jsonify, session
-
-def error(status, code, message):
-    # 공통 규칙 형식의 에러 응답 생성
-    return jsonify(success=False, error={"code": code, "message": message}), status
-
+from flask import session
+from utils.response import error
 
 def get_current_uid():
     # 로그인한 사용자의 uid를 반환. 로그인하지 않았으면 None 반환
