@@ -1,0 +1,37 @@
+.footer {
+  background: var(--color-bg-subtle);
+  border-top: 1px solid var(--color-border-default);
+}
+
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 160px;
+  max-width: var(--container-width, 1200px);
+  height: 100px;
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+  white-space: nowrap;
+}
+
+.logo {
+  color: var(--color-primary);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.tagline {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.links {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.links a:hover {
+  color: var(--color-text-secondary);
+}
