@@ -1,7 +1,7 @@
-// 공통 상품 카드
+// 공통 상품 카드 — 원본: component/card.html, card.css  (담당: 윤영)
 // 수정 시 팀 공유 필수
 //
-// 사용법 (반드시 유념 후 사용!!!)
+// 사용법
 //   <Card product={product} />                       기본 (판매자 프로필 포함)       card1
 //   <Card product={product} variant="noProfile" />   판매자 없음 (메인 인기 상품)    card2
 //   <Card product={product} variant="sm" />          작은 카드 (검색 추천 상품 등)   card3
@@ -11,13 +11,15 @@
 //   { pid, name, price, image, sellerNickname, sellerImage, isLiked }
 //   (sellerNickname 이 없으면 판매자 줄은 표시하지 않습니다)
 //
-// 찜(하트)
-//   onLikeChange(pid, nextLiked): 하트를 누르면 호출 → 페이지에서 찜 API 를 연결해 주세요.
-//     - 화면의 하트는 바로 바뀌고, onLikeChange 가 에러를 던지면 원래대로 되돌아갑니다.
-//     - 로그인하지 않았으면 호출되지 않고 로그인 페이지로 이동합니다.
-//   예) <Card product={p} onLikeChange={(pid, liked) => (liked ? addLike(pid) : removeLike(pid))} />
+// 찜(하트) — 따로 연결하지 않아도 하트를 누르면 찜 API 로 저장됩니다.
+//   - 로그인하지 않았으면 로그인 페이지로 이동합니다.
+//   - 하트는 바로 바뀌고, 저장에 실패하면 원래대로 되돌아갑니다.
+//   - 특별한 동작이 필요한 페이지만 onLikeChange(pid, nextLiked) 를 직접 넘기세요.
+//     예) 찜 목록에서 해제하면 목록에서 빼기
+//       <Card product={p} onLikeChange={async (pid) => { await removeLike(pid); 목록에서빼기(pid); }} />
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { addLike, removeLike } from "../../api/like";
 import useRequireLogin from "../../hooks/useRequireLogin";
 import likeOnIcon from "../../assets/svg/like-On.svg";
 import likeOffIcon from "../../assets/svg/like-Off.svg";
@@ -31,10 +33,17 @@ const VARIANT_CLASS = {
   horizontal: styles.horizontal,
 };
 
+// 기본 찜 동작: 찜 등록 / 찜 취소 API 호출
+const saveLike = (pid, liked) => (liked ? addLike(pid) : removeLike(pid));
+
 // 판매자 프로필을 보여주는 카드 종류
 const WITH_SELLER = ["default", "horizontal"];
 
-export default function Card({ product, variant = "default", onLikeChange }) {
+export default function Card({
+  product,
+  variant = "default",
+  onLikeChange = saveLike,
+}) {
   const {
     pid,
     name,
@@ -53,7 +62,7 @@ export default function Card({ product, variant = "default", onLikeChange }) {
       const next = !liked;
       setLiked(next); // 화면 먼저 바꾸기
       try {
-        await onLikeChange?.(pid, next);
+        await onLikeChange(pid, next);
       } catch {
         setLiked(!next); // 실패하면 되돌리기
       }
