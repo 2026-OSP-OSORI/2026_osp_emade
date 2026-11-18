@@ -7,9 +7,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 160px;
+  gap: 200px;
   max-width: var(--container-width, 1200px);
-  height: 100px;
+  height: 160px;
   margin: 0 auto;
   padding: 0 var(--space-24);
   white-space: nowrap;
@@ -17,18 +17,18 @@
 
 .logo {
   color: var(--color-primary);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 .tagline {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--color-text-primary);
 }
 
 .links {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-tertiary);
 }
 

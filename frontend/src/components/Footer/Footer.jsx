@@ -16,7 +16,7 @@ export default function Footer() {
         <Link to="/" className={styles.logo}>
           Emade
         </Link>
-        <p className={styles.tagline}>이화여자대학교 벗들의 핸드메이드 마켓</p>
+        <p className={styles.tagline}>이화여대 학생들의 핸드메이드 마켓</p>
         <div className={styles.links}>
           {FOOTER_LINKS.map((link, i) => (
             <span key={link.label}>
