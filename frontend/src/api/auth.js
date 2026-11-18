@@ -4,7 +4,6 @@
 import { api } from "./client";
 
 // 회원가입 화면
-// TODO: 쿼리 이름(email, nickname)은 백엔드와 확인
 export const checkEmail = (email) =>
   api.get(`/users/check-email?email=${encodeURIComponent(email)}`);
 export const checkNickname = (nickname) =>

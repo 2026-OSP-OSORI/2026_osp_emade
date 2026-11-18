@@ -7,7 +7,10 @@
 //   <button onClick={() => requireLogin(() => addToCart(id))}>장바구니</button>
 //
 // 로그인 페이지에서는 로그인 성공 후 아래처럼 원래 페이지로 돌려보내면 됩니다.
-//   const from = useLocation().state?.from ?? '/';
+//   const { refresh } = useAuth();
+//   const from = useLocation().state?.from ?? "/";
+//   await login({ email, password });   // api/auth.js
+//   await refresh();                     // 로그인 상태 다시 확인
 //   navigate(from, { replace: true });
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
