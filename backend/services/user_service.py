@@ -1,3 +1,4 @@
+import email
 import re
 import threading
 
@@ -30,7 +31,14 @@ def find_user_by_email(email):
             return uid, user
     return None, None
 
-# DB에서 실제로 중복인지 확인하는 함수
+
+# DB에서 실제로 이메일 중복인지 확인하는 함수
+def is_email_taken(email):
+    uid, _ = find_user_by_email(email)
+    return uid is not None
+
+
+# DB에서 실제로 닉네임 중복인지 확인하는 함수
 def is_nickname_taken(nickname):
     for user in _all_users().values():
         if user.get("nickname") == nickname:
@@ -38,6 +46,7 @@ def is_nickname_taken(nickname):
     return False
 
 
+# 이메일 정규화 함수
 def normalize_email(email):
     # 공백 제거 + 소문자 변환
     email = (email or "").strip().lower()
@@ -52,7 +61,7 @@ def normalize_email(email):
     
     return email
 
-
+# 닉네임 정규화 함수
 def normalize_nickname(nickname):
     # 공백 제거
     nickname = (nickname or "").strip()
@@ -65,9 +74,8 @@ def normalize_nickname(nickname):
 # 이메일 중복 검사 + 겹치면 에러 던지기 -> API에서 호출
 def check_email_available(email):
     email = normalize_email(email)
-    uid, _ = find_user_by_email(email) # uid만 가져옴
     
-    if uid:
+    if is_email_taken(email):
         raise AppError(409, "EMAIL_ALREADY_EXISTS", "*이미 사용 중인 이메일입니다.")
 
 
