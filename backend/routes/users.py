@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, request
 
+from utils.auth import get_current_uid, login_required
+
 from services import user_service
 
 users_bp = Blueprint("users", __name__, url_prefix="/users")
@@ -16,4 +18,21 @@ def check_email():
 @users_bp.route("/check-nickname", methods=["GET"])
 def check_nickname():
     user_service.check_nickname_available(request.args.get("nickname"))
+    return jsonify(success=True, data=None)
+
+
+# 마이페이지 내정보 요약 API
+@users_bp.route("/me", methods=["GET"])
+@login_required
+def my_summary():
+    data = user_service.get_my_summary(get_current_uid())
+    return jsonify(success=True, data=data)
+
+
+# 닉네임 변경 API
+@users_bp.route("/me/nickname", methods=["PATCH"])
+@login_required
+def change_nickname():
+    body = request.get_json(silent=True) or {}
+    user_service.change_nickname(get_current_uid(), body.get("nickname"))
     return jsonify(success=True, data=None)
