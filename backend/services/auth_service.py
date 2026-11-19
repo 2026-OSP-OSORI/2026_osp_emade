@@ -2,7 +2,6 @@ import hashlib
 
 from backend.utils.time_utils import now_ms
 from services.user_service import (
-    clean_email,
     find_user_by_email,
     is_email_taken,
     is_nickname_taken,
