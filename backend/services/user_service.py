@@ -1,4 +1,3 @@
-import email
 import re
 import threading
 
@@ -45,11 +44,13 @@ def is_nickname_taken(nickname):
             return True
     return False
 
+# 공백 제거 + 소문자 변환 (검사 X)
+def clean_email(email):
+    return (email or "").strip().lower()
 
-# 이메일 정규화 함수
+# 이메일 검사 함수
 def normalize_email(email):
-    # 공백 제거 + 소문자 변환
-    email = (email or "").strip().lower()
+    email = clean_email(email)
     
     # 이메일 형식 검사
     if not EMAIL_PATTERN.match(email):
