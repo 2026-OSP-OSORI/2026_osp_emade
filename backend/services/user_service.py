@@ -24,10 +24,13 @@ def _all_users():
 
 # DB에서 그 이메일 가진 유저를 찾아서 uid, 유저 정보 반환하는 함수
 def find_user_by_email(email):
+    email = clean_email(email) # 안에서 직접 정리
+    
     for uid, user in _all_users().items(): # dict를 (키, 값) 쌍으로 하나씩 꺼냄
         if user.get("email") == email:
             # user의 DB 데이터 전체(dict)를 uid와 함께 반환
             return uid, user
+        
     return None, None
 
 
@@ -39,9 +42,12 @@ def is_email_taken(email):
 
 # DB에서 실제로 닉네임 중복인지 확인하는 함수
 def is_nickname_taken(nickname):
+    nickname = (nickname or "").strip() # 안에서 직접 정리
+    
     for user in _all_users().values():
         if user.get("nickname") == nickname:
             return True
+        
     return False
 
 # 공백 제거 + 소문자 변환 (검사 X)
