@@ -1,6 +1,9 @@
 import re
 import threading
 
+from services.ranking_service import get_seller_rank
+from utils.time_utils import now_ms
+
 from firebase_admin import db
 
 from utils.exceptions import AppError
@@ -92,3 +95,83 @@ def check_nickname_available(nickname):
     
     if is_nickname_taken(nickname):
         raise AppError(409, "NICKNAME_ALREADY_EXISTS", "*이미 사용 중인 닉네임입니다.")
+    
+
+# 상품이 삭제되었는지 확인하는 함수
+def _is_deleted_product(pid):
+    return bool(db.reference(f"products/{pid}/deleted").get())
+
+
+# 삭제되지 않은 상품 개수 (판매 상태 무관, 등록 상품 수/찜 개수에 사용)
+def _count_active_products(pids):
+    count = 0
+    for pid in pids:
+        if not _is_deleted_product(pid): # 삭제 안 됐으면
+            count += 1
+    return count
+
+
+# 거래 전 일정 수를 세는 함수
+def _count_upcoming_schedules(orders_by_role):
+    now = now_ms()
+    count = 0
+    for orders in orders_by_role.values(): # buying, selling
+        for oid, trade_start_at in orders.items():
+            if trade_start_at <= now: # 이미 지난 일정이면 스킵
+                continue
+            if db.reference(f"orders/{oid}/status").get() == "CONFIRMED": # CONFIRMED 상태 + 거래 시각 아직 안 지난 주문
+                count += 1
+    return count
+
+
+# 마이페이지에 띄울 사용자 정보 가져오기
+def get_my_summary(uid):
+    user = users_ref().child(uid).get()
+    
+    if user is None:
+        raise AppError(404, "USER_NOT_FOUND", "*존재하지 않는 사용자입니다.")
+
+    my_products = db.reference(f"userProducts/{uid}").get() or {}
+    my_likes = db.reference(f"likes/{uid}").get() or {}
+    my_orders = db.reference(f"userOrders/{uid}").get() or {}
+    my_reviews = db.reference(f"userReviews/{uid}").get() or {}
+
+    return {
+        "uid": uid,
+        "nickname": user.get("nickname"),
+        "profileImage": user.get("profileImage"),
+        "sellerRank": get_seller_rank(uid),
+        "followingCount": user.get("followingCount", 0),
+        "followerCount": user.get("followerCount", 0),
+        "stats": {
+            "scheduleCount": _count_upcoming_schedules(my_orders),
+            "likeCount": _count_active_products(my_likes),
+            "productCount": _count_active_products(my_products),
+            "orderCount": sum(len(orders) for orders in my_orders.values()),
+            "reviewCount": len(my_reviews),
+        },
+    }
+
+
+# 닉네임 변경 함수
+def change_nickname(uid, nickname):
+    nickname = normalize_nickname(nickname)
+
+    with user_lock:
+        current = users_ref().child(uid).child("nickname").get()
+        
+        if current == nickname:
+            return   # 지금 내 닉네임과 같으면 바꿀 것 없음
+
+        if is_nickname_taken(nickname):
+            raise AppError(409, "NICKNAME_ALREADY_EXISTS", "*이미 사용 중인 닉네임입니다.")
+
+        updates = {f"users/{uid}/nickname": nickname}
+
+        # 복사본 갱신 (orders는 주문 당시 기록이라 유지)
+        for pid in db.reference(f"userProducts/{uid}").get() or {}:
+            updates[f"products/{pid}/sellerNickname"] = nickname
+        for rid in db.reference(f"userReviews/{uid}").get() or {}:
+            updates[f"reviews/{rid}/userNickname"] = nickname
+
+        db.reference().update(updates)   # multi-path update
