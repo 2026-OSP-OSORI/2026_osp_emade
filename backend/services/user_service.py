@@ -2,6 +2,7 @@ import re
 import threading
 
 from services.ranking_service import get_seller_rank
+from services.follow_service import is_following
 from utils.time_utils import now_ms
 
 from firebase_admin import db
@@ -175,3 +176,21 @@ def change_nickname(uid, nickname):
             updates[f"reviews/{rid}/userNickname"] = nickname
 
         db.reference().update(updates)   # multi-path update
+        
+
+# 판매자 프로필 가져오기
+def get_seller_profile(my_uid, target_uid):
+    user = users_ref().child(target_uid).get()
+    if user is None:
+        raise AppError(404, "USER_NOT_FOUND", "*존재하지 않는 사용자입니다.")
+
+    return {
+        "uid": target_uid,
+        "nickname": user.get("nickname"),
+        "profileImage": user.get("profileImage"),
+        "sellerRank": get_seller_rank(target_uid),
+        "followingCount": user.get("followingCount", 0),
+        "followerCount": user.get("followerCount", 0),
+        "isFollowing": is_following(my_uid, target_uid),
+        "isMe": my_uid == target_uid,
+    }
