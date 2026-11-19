@@ -44,5 +44,4 @@ def get_seller_rank(uid):
 
 # 판매 순위 상위 (limit)명 가져오기
 def get_top_sellers(limit):
-    """상위 판매자 limit명"""
     return _ranked_sellers()[:limit]
