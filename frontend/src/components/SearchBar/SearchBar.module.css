@@ -8,204 +8,159 @@
 .form {
   display: flex;
   align-items: center;
-  height: 36px;
-  padding: 0 12px;
-  background: var(--color-bg-default, #fff);
+  height: 42px;
+  padding: 0 17px;
+  background: #fff;
   border: 1.5px solid var(--color-primary, #00462a);
-  border-radius: var(--radius-full, 999px);
+  border-radius: 999px;
 }
 
-.form:focus-within {
-  box-shadow: 0 0 0 2px var(--color-primary-light, #e8f3ee);
-}
-
+.form:focus-within { border-color: var(--color-primary, #00462a); }
 .form input {
   flex: 1;
   min-width: 0;
-  background: transparent;
   border: 0;
   outline: 0;
-  color: var(--color-text-primary, #1f2937);
+  background: transparent;
+  color: #303b36;
   font: inherit;
   font-size: 14px;
 }
-
+.form input::placeholder { color: #a4aaa7; }
 .form button {
-  border: 0;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
+.form img { width: 20px; height: 20px; }
 
-.form img {
-  width: 20px;
-  height: 20px;
-}
-
+/* Wide, flat three-column dropdown, as in the supplied design. */
 .panel {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 17px);
   left: 50%;
   transform: translateX(-50%);
-  width: min(900px, 94vw);
+  width: min(1100px, calc(100vw - 48px));
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: 1fr 1.2fr 1.4fr;
-  gap: 0;
-  background: var(--color-bg-default, #fff);
-  border: 1px solid var(--color-border-default, #e5e7eb);
-  border-radius: 12px;
-  box-shadow: 0 12px 28px #0002;
-  padding: 24px 18px 42px;
-  color: var(--color-text-primary, #1f2937);
+  grid-template-columns: 1fr 1.18fr 1.32fr;
+  background: #fff;
+  color: #27342e;
+  padding: 24px 20px 48px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: 0 6px 12px rgb(0 0 0 / 6%);
 }
-
-.column {
-  min-width: 0;
-  padding: 0 16px;
-}
-
-.column + .column {
-  border-left: 1px solid var(--color-border-default, #e5e7eb);
-}
-
+.column { min-width: 0; padding: 0 20px; }
+.column + .column { border-left: 1px solid #dedede; }
 .column h3 {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
   font-size: 14px;
   font-weight: 600;
+  color: #293d34;
 }
-
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  align-content: flex-start;
+  gap: 12px 9px;
 }
-
 .chip {
-  padding: 6px 10px;
-  border: 1px solid var(--color-border-default, #e5e7eb);
+  padding: 7px 13px;
+  border: 1px solid #ead8c3;
   border-radius: 999px;
-  background: white;
+  background: #fff;
+  color: #4c4b47;
   font-size: 12px;
+  white-space: nowrap;
   cursor: pointer;
 }
-
-.chip:hover {
-  border-color: var(--color-primary, #00462a);
-}
-
+.chip:nth-child(3n + 1) { border-color: #d7e5d7; }
+.chip:hover { background: #f8f6f2; }
 .heading {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
   align-items: baseline;
+  gap: 8px;
 }
-
 .heading button {
+  padding: 0;
   border: 0;
   background: transparent;
-  color: var(--color-text-tertiary, #9ca3af);
-  cursor: pointer;
+  color: #a8aaa9;
   font-size: 11px;
+  cursor: pointer;
 }
-
-.recents {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
+.recents { margin: 0; padding: 0; list-style: none; }
 .recents li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 4px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
-
 .recentTerm {
-  border: 0;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
   display: flex;
-  gap: 8px;
   align-items: center;
-  font-size: 12px;
-  text-align: left;
-}
-
-.recentTerm span {
-  color: var(--color-text-tertiary, #9ca3af);
-}
-
-.remove {
+  min-width: 0;
+  gap: 9px;
+  padding: 0;
+  border: 0;
   background: transparent;
-  border: 0;
-  color: var(--color-text-tertiary, #9ca3af);
+  color: #333;
+  text-align: left;
+  font-size: 13px;
   cursor: pointer;
-  font-size: 18px;
 }
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.empty {
-  margin: 0;
-  font-size: 12px;
-  color: var(--color-text-tertiary, #9ca3af);
-}
-
-.close {
-  position: absolute;
-  bottom: 12px;
-  right: 18px;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  font-size: 12px;
-  color: var(--color-text-secondary, #4b5563);
-}
-
-@media (max-width: 650px) {
-.panel {
-  grid-template-columns: 1fr;
-  max-height: 70vh;
-  overflow-y: auto;
-  padding-bottom: 40px;
-}
-
-.column {
-  padding: 12px 8px;
-}
-
-.column + .column {
-  border-left: 0;
-  border-top: 1px solid var(--color-border-default, #e5e7eb);
-}
-
-
-}
-
-/* Icons for recent-search actions */
-.recentTerm img {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
+.recentTerm img { width: 16px; height: 16px; flex-shrink: 0; }
+.recentLabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.recentActions { display: flex; align-items: center; flex-shrink: 0; gap: 10px; }
+.date { color: #a5a5a5; font-size: 11px; }
 .remove {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
-
-.remove img {
-  width: 20px;
-  height: 20px;
+.remove img { width: 16px; height: 16px; }
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 10px;
+}
+.empty { margin: 0; color: #9c9c9c; font-size: 12px; }
+.close {
+  position: absolute;
+  right: 22px;
+  bottom: 13px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #a1a1a1;
+  font-size: 12px;
+  cursor: pointer;
+}
+@media (max-width: 800px) {
+  .panel {
+    width: min(650px, calc(100vw - 24px));
+    grid-template-columns: 1fr 1fr;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 18px 10px 44px;
+  }
+  .column { padding: 12px; }
+  .column:nth-child(3) { grid-column: 1 / -1; border-left: 0; border-top: 1px solid #dedede; margin-top: 14px; padding-top: 18px; }
+}
+@media (max-width: 520px) {
+  .panel { grid-template-columns: 1fr; }
+  .column + .column { border-left: 0; border-top: 1px solid #dedede; margin-top: 12px; padding-top: 18px; }
+  .column:nth-child(3) { grid-column: auto; }
 }
