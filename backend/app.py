@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from backend.firebase import init_firebase
+from firebase import init_firebase
 from routes.auth import auth_bp
 from routes.users import users_bp
 from utils.exceptions import AppError
