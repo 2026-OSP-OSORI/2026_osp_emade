@@ -1,8 +1,13 @@
-// 공통 헤더 — 로고, 검색창, 우측 메뉴, 카테고리 메뉴(nav)를 담당합니다. 수정 시 팀 공유 필수
+// 공통 헤더 — 로고, 검색창(SearchBar), 우측 메뉴, 카테고리 메뉴(nav)를 담당합니다. 수정 시 팀 공유 필수
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import searchIcon from "../../assets/svg/search.svg";
+import SearchBar from "../SearchBar/SearchBar";
+import useRecentSearches from "../../hooks/useRecentSearches";
 import { CATEGORIES } from "../../constants/categories";
 import styles from "./Header.module.css";
+
+// 추천 검색어 — 지금은 카테고리 이름을 보여줍니다.
+// TODO: 인기 검색어 API 가 생기면 그 결과로 교체해 주세요.
+const SUGGESTIONS = CATEGORIES.filter((category) => category !== "기타");
 
 export default function Header() {
   const navigate = useNavigate();
@@ -18,15 +23,15 @@ export default function Header() {
   const user = null;
   const logout = () => {};
 
+  const { recentSearches, addRecent, removeRecent, clearRecent } = useRecentSearches();
+
   // 검색창 초기값 — /products?q=... 에서는 URL 검색어, 그 외 페이지는 빈 칸
-  // (input 의 key 가 바뀌면 입력창이 이 값으로 다시 초기화됩니다)
   const initialKeyword = isProductList ? currentQuery : "";
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const q = String(new FormData(e.currentTarget).get("q") ?? "").trim();
-    if (!q) return;
-    navigate(`/products?q=${encodeURIComponent(q)}`);
+  // 검색 (입력, 추천 검색어, 최근 검색어 클릭 모두) → 최근 검색어에 저장하고 결과 페이지로 이동
+  const handleSearch = (keyword) => {
+    addRecent(keyword);
+    navigate(`/products?q=${encodeURIComponent(keyword)}`);
   };
 
   const handleLogout = () => {
@@ -45,19 +50,16 @@ export default function Header() {
           Emade
         </Link>
 
-        <form className={styles.search} onSubmit={handleSearch} role="search">
-          <input
-            key={initialKeyword}
-            type="text"
-            name="q"
-            defaultValue={initialKeyword}
-            placeholder="상품, 태그로 검색해보세요!"
-            aria-label="검색어"
-          />
-          <button type="submit" aria-label="검색">
-            <img src={searchIcon} alt="" />
-          </button>
-        </form>
+        {/* TODO: 추천 상품 API 가 생기면 recommendedProducts 에 상품 목록을 넘겨 주세요. */}
+        <SearchBar
+          initialQuery={initialKeyword}
+          onSearch={handleSearch}
+          suggestions={SUGGESTIONS}
+          recentSearches={recentSearches}
+          onRemoveRecent={removeRecent}
+          onClearRecent={clearRecent}
+          recommendedProducts={[]}
+        />
 
         <div className={styles.menu}>
           {user ? (
