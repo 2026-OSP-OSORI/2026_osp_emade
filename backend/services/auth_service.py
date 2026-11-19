@@ -1,6 +1,6 @@
 import hashlib
 
-from backend.utils.time_utils import now_ms
+from utils.time_utils import now_ms
 from services.user_service import (
     find_user_by_email,
     is_email_taken,
