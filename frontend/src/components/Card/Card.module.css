@@ -1,0 +1,211 @@
+/* 원본: component/card.css
+   클래스 이름 대응
+   .card__link → .link    .card__thumb → .thumb    .card__info → .info
+   .card__title → .title  .card__price → .price    .card__artist → .seller
+   .card__profile → .profile  .card__artist-name → .sellerName  .card__like → .like
+   .card--NoProfile → .noProfile  .card--sm → .sm  .card--horizontal → .horizontal */
+
+/* ---------- 기본 카드 (card1) ---------- */
+.card {
+  /* 카드 변수 */
+  --card-width: 220px;
+  --card-height: 280px;
+  --card-pad: 6px;
+  --thumb-height: 120px;
+  --title-size: 21px;
+  --price-size: 19px;
+  --like-size: 36px;
+  --profile-size: 45px;
+  --seller-size: 16px;
+
+  position: relative;
+  flex: none;
+  width: var(--card-width);
+  height: var(--card-height);
+  padding: var(--card-pad);
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-default);
+}
+
+.link {
+  display: flex;
+  flex-direction: column; /* 사진 → 글자 영역을 세로로, 카드 높이를 꽉 채움 */
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 상품 사진 (썸네일) */
+.thumb {
+  flex-shrink: 0; /* 글자 영역이 커져도 사진 크기는 그대로 */
+  height: var(--thumb-height);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-border-default);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 텍스트 영역 */
+.info {
+  display: flex;
+  flex: 1; /* 사진 아래 남은 공간을 모두 차지 */
+  flex-direction: column;
+  padding: 12px 4px;
+}
+
+.title {
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: var(--title-size);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.price {
+  flex-shrink: 0; /* 공간이 좁아도 가격 줄이 눌려서 잘리지 않게 */
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: var(--price-size);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 판매자 */
+.seller {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto; /* 판매자 프로필을 카드 아래쪽으로 밀어 내림 */
+}
+
+.profile {
+  flex: none;
+  width: var(--profile-size);
+  height: var(--profile-size);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-border-default);
+}
+
+.profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sellerName {
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-size: var(--seller-size);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 찜 버튼 (하트) */
+.like {
+  position: absolute;
+  top: calc(var(--card-pad) + 4px);
+  right: calc(var(--card-pad) + 4px);
+  width: var(--like-size);
+  height: var(--like-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.like img {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- 판매자 없음 (card2) ---------- */
+.noProfile {
+  --card-width: 180px;
+  --card-height: 200px;
+  --title-size: 20px;
+}
+
+/* 상품명·가격을 아래로 내려서 위(사진과의 간격)·아래 여백을 맞춤 */
+.noProfile .info {
+  padding-top: 13px;
+}
+
+/* ---------- 작은 카드 (card3) ---------- */
+.sm {
+  --card-width: 120px;
+  --card-height: 130px;
+  --card-pad: 4px;
+  --thumb-height: 75px;
+  --title-size: 14px;
+  --price-size: 12px;
+  --like-size: 18px;
+}
+
+.sm .info {
+  padding: 6px 2px 2px;
+}
+
+.sm .like {
+  top: calc(var(--card-pad) + 2px);
+  right: calc(var(--card-pad) + 2px);
+}
+
+/* ---------- 가로형 카드 (card4) ---------- */
+.horizontal {
+  --card-width: 360px;
+  --card-height: 87px;
+  --card-pad: 4px;
+  --thumb-width: 110px;
+  --thumb-height: 75px;
+  --title-size: 14px;
+  --price-size: 14px;
+  --like-size: 18px;
+  --profile-size: 28px;
+  --seller-size: 12px;
+}
+
+.horizontal .link {
+  flex-direction: row; /* 가로형은 사진 | 글자 영역을 옆으로 */
+  gap: 6px;
+}
+
+.horizontal .thumb {
+  flex-shrink: 0;
+  width: var(--thumb-width);
+}
+
+.horizontal .info {
+  display: block; /* 가로형은 높이가 좁아서 프로필을 아래로 밀지 않음 (원래 배치) */
+  flex: 1;
+  min-width: 0;
+  padding: 4px 2px;
+}
+
+.horizontal .title,
+.horizontal .price {
+  margin-bottom: 6px;
+}
+
+.horizontal .seller {
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* 하트를 썸네일 오른쪽 위에 */
+.horizontal .like {
+  top: calc(var(--card-pad) + 2px);
+  right: auto;
+  left: calc(var(--card-pad) + var(--thumb-width) - var(--like-size) - 2px);
+}
