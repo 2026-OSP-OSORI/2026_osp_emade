@@ -12,7 +12,7 @@ __pycache__/
 .env
 
 # Firebase
-serviceAccountKey.json
+backend/authentication/
 
 # OS
 .DS_Store
