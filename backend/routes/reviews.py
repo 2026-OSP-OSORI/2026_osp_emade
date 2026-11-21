@@ -50,3 +50,42 @@ def my_reviews():
     sort = request.args.get("sort", "latest")
     data = review_service.get_my_reviews(get_current_uid(), sort, page, limit)
     return jsonify(success=True, data=data)
+
+
+# 리뷰 작성 API
+@reviews_bp.route("/reviews", methods=["POST"])
+@login_required
+def create_review():
+    rid = review_service.create_review(
+        get_current_uid(),
+        request.form.get("oid"),
+        request.form.get("title"),
+        request.form.get("rating"),
+        request.form.get("content"),
+        request.files.getlist("images"),
+    )
+    return jsonify(success=True, data={"rid": rid}), 201
+
+
+# 리뷰 수정 API
+@reviews_bp.route("/reviews/<rid>", methods=["PATCH"])
+@login_required
+def update_review(rid):
+    review_service.update_review(
+        get_current_uid(),
+        rid,
+        request.form.get("title"),
+        request.form.get("rating"),
+        request.form.get("content"),
+        request.form.getlist("keepImages"),
+        request.files.getlist("images"),
+    )
+    return jsonify(success=True, data=None)
+
+
+# 리뷰 삭제 API
+@reviews_bp.route("/reviews/<rid>", methods=["DELETE"])
+@login_required
+def delete_review(rid):
+    review_service.delete_review(get_current_uid(), rid)
+    return jsonify(success=True, data=None)

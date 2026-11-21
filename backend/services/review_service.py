@@ -1,9 +1,15 @@
 from firebase_admin import db
+import threading
 
 from utils.exceptions import AppError
-from utils.time_utils import ms_to_iso
+from utils.time_utils import ms_to_iso, now_ms
 
 PHOTO_PREVIEW_LIMIT = 6
+MIN_CONTENT_LENGTH = 20
+MAX_REVIEW_IMAGES = 5
+
+# 같은 주문에 리뷰 중복 작성, 상품 별점 합계가 꼬이는 걸 막는 Lock
+review_lock = threading.Lock()
 
 
 # DB에서 리뷰 가져오기
@@ -259,3 +265,187 @@ def get_my_reviews(my_uid, sort, page, limit):
         })
 
     return {"total": len(reviews), "page": page, "reviews": items}
+
+
+# 유효하지 않은 입력값에 대한 AppError 메시지 생성
+def _invalid(message):
+    return AppError(400, "INVALID_REVIEW_DATA", message)
+
+
+# 별점 입력값 검사 및 변환. 1~5 사이의 정수로 변환
+def _parse_rating(rating):
+    try:
+        value = int(rating)
+    except (TypeError, ValueError):
+        raise _invalid("*별점을 선택해주세요.")
+    if value < 1 or value > 5:
+        raise _invalid("*별점을 선택해주세요.")
+    return value
+
+
+# 제목·별점·내용 검사 후 정리된 값을 반환
+def _validate_review_input(title, rating, content):
+    title = (title or "").strip()
+    content = (content or "").strip()
+    if not title or not content:
+        raise AppError(400, "MISSING_REQUIRED_FIELD", "*필수 항목을 입력하세요.")
+
+    rating = _parse_rating(rating)
+
+    if len(content) < MIN_CONTENT_LENGTH:
+        raise _invalid("*리뷰 내용을 20자 이상 입력해주세요.")
+
+    return title, rating, content
+
+
+# 업로드된 파일 중 빈 칸(파일 선택 안 함)은 빼고, 사용자가 실제로 고른 파일만 남김
+def _real_files(files):
+    result = []
+    for file in files:
+        if file.filename:
+            result.append(file)
+    return result
+
+
+# 이미지 파일 검사. keep_count: 기존 리뷰에 남길 사진 수
+def _validate_images(files, keep_count):
+    if keep_count + len(files) > MAX_REVIEW_IMAGES:
+        raise _invalid("*사진은 최대 5장까지 올릴 수 있어요.")
+    for file in files:
+        if not file.mimetype or not file.mimetype.startswith("image/"): # mimetype이 없거나 image/로 시작하지 않으면 이미지 아님 
+            raise _invalid("*올바른 이미지 파일을 등록해주세요.")
+
+
+# 이미지 업로드. 백2 이미지 업로드 방식 확정 후 구현
+def _upload_images(files):
+    if not files:
+        return []
+    raise NotImplementedError("이미지 업로드는 백2 방식 확정 후 구현")
+
+
+# 리뷰 작성 가능 주문인지 확인
+def _get_reviewable_order(my_uid, oid):
+    order = db.reference(f"orders/{oid}").get()
+    
+    if order is None:
+        raise AppError(404, "ORDER_NOT_FOUND", "*주문을 찾을 수 없습니다.")
+    
+    if order.get("buyerId") != my_uid:
+        raise AppError(403, "FORBIDDEN", "*본인이 구매한 주문에만 리뷰를 쓸 수 있어요.")
+    
+    if order.get("status") != "COMPLETED":
+        raise AppError(403, "REVIEW_NOT_ALLOWED", "*거래가 완료된 주문만 리뷰를 쓸 수 있어요.")
+    
+    return order
+
+
+# 리뷰 작성
+def create_review(my_uid, oid, title, rating, content, files):
+    if not oid:
+        raise AppError(400, "MISSING_REQUIRED_FIELD", "*필수 항목을 입력하세요.")
+    title, rating, content = _validate_review_input(title, rating, content)
+    files = _real_files(files)
+    _validate_images(files, 0)
+    
+    order = _get_reviewable_order(my_uid, oid)
+    pid = order["pid"]
+
+    image_urls = _upload_images(files)
+
+    with review_lock:
+        # Lock 안에서 다시 확인 (동시에 두 번 눌러도 리뷰는 하나만)
+        if db.reference(f"orders/{oid}/reviewId").get():
+            raise AppError(409, "REVIEW_ALREADY_EXISTS", "*이미 리뷰를 작성한 주문이에요.")
+
+        rid = db.reference("reviews").push().key # 새 리뷰 id만 받기
+        created_at = now_ms()
+        rating_sum = db.reference(f"products/{pid}/ratingSum").get() or 0
+        review_count = db.reference(f"products/{pid}/reviewCount").get() or 0
+
+        db.reference().update({
+            f"reviews/{rid}": {
+                "orderId": oid,
+                "pid": pid,
+                "uid": my_uid,
+                "userNickname": db.reference(f"users/{my_uid}/nickname").get(),
+                "title": title,
+                "rating": rating,
+                "content": content,
+                "images": image_urls,
+                "helpfulCount": 0,
+                "sellerReply": None,
+                "sellerRepliedAt": None,
+                "createdAt": created_at,
+            },
+            f"productReviews/{pid}/{rid}": created_at,
+            f"userReviews/{my_uid}/{rid}": created_at,
+            f"orders/{oid}/reviewId": rid,
+            f"products/{pid}/ratingSum": rating_sum + rating,
+            f"products/{pid}/reviewCount": review_count + 1,
+        })
+
+    return rid
+
+
+# 리뷰가 있고 내 것인지 확인. action: '수정' 또는 '삭제'
+def _get_my_review(my_uid, rid, action):
+    review = _get_review(rid)
+    if review is None:
+        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    if review.get("uid") != my_uid:
+        raise AppError(403, "FORBIDDEN", f"*본인이 작성한 리뷰만 {action}할 수 있어요.")
+    return review
+
+
+# 리뷰 수정
+def update_review(my_uid, rid, title, rating, content, keep_images, files):
+    review = _get_my_review(my_uid, rid, "수정")
+    title, rating, content = _validate_review_input(title, rating, content)
+
+    # 남길 사진은 원래 이 리뷰에 있던 사진만 인정
+    old_images = review.get("images") or []
+    kept = []
+    for url in keep_images:
+        if url in old_images:
+            kept.append(url)
+
+    files = _real_files(files)
+    _validate_images(files, len(kept))
+    new_urls = _upload_images(files)
+
+    pid = review.get("pid")
+
+    with review_lock:
+        updated_at = now_ms() # 작성일을 수정 시각으로 덮어씀
+        rating_sum = db.reference(f"products/{pid}/ratingSum").get() or 0
+
+        db.reference().update({
+            f"reviews/{rid}/title": title,
+            f"reviews/{rid}/rating": rating,
+            f"reviews/{rid}/content": content,
+            f"reviews/{rid}/images": kept + new_urls,
+            f"reviews/{rid}/createdAt": updated_at,
+            f"productReviews/{pid}/{rid}": updated_at,
+            f"userReviews/{my_uid}/{rid}": updated_at,
+            f"products/{pid}/ratingSum": rating_sum - review.get("rating", 0) + rating,
+        })
+
+
+# 리뷰 삭제
+def delete_review(my_uid, rid):
+    review = _get_my_review(my_uid, rid, "삭제")
+    pid = review.get("pid")
+
+    with review_lock:
+        rating_sum = db.reference(f"products/{pid}/ratingSum").get() or 0
+        review_count = db.reference(f"products/{pid}/reviewCount").get() or 0
+
+        db.reference().update({
+            f"reviews/{rid}": None,
+            f"productReviews/{pid}/{rid}": None,
+            f"userReviews/{my_uid}/{rid}": None,
+            f"reviewHelpful/{rid}": None,
+            f"orders/{review.get('orderId')}/reviewId": None,
+            f"products/{pid}/ratingSum": max(rating_sum - review.get("rating", 0), 0),
+            f"products/{pid}/reviewCount": max(review_count - 1, 0),
+        })
