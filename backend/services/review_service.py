@@ -328,13 +328,13 @@ def _get_reviewable_order(my_uid, oid):
     order = db.reference(f"orders/{oid}").get()
     
     if order is None:
-        raise AppError(404, "ORDER_NOT_FOUND", "*주문을 찾을 수 없어요.")
+        raise AppError(404, "ORDER_NOT_FOUND", "*주문을 찾을 수 없습니다.")
     
     if order.get("buyerId") != my_uid:
-        raise AppError(403, "FORBIDDEN", "*본인 주문에만 리뷰를 작성할 수 있어요.")
+        raise AppError(403, "FORBIDDEN", "*본인이 구매한 주문에만 리뷰를 쓸 수 있어요.")
     
     if order.get("status") != "COMPLETED":
-        raise AppError(403, "REVIEW_NOT_ALLOWED", "*거래가 완료된 주문만 리뷰를 작성할 수 있어요.")
+        raise AppError(403, "REVIEW_NOT_ALLOWED", "*거래가 완료된 주문만 리뷰를 쓸 수 있어요.")
     
     return order
 
