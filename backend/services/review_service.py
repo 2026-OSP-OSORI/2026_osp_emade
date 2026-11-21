@@ -1,9 +1,15 @@
 from firebase_admin import db
+import threading
 
 from utils.exceptions import AppError
-from utils.time_utils import ms_to_iso
+from utils.time_utils import ms_to_iso, now_ms
 
 PHOTO_PREVIEW_LIMIT = 6
+MIN_CONTENT_LENGTH = 20
+MAX_REVIEW_IMAGES = 5
+
+# 같은 주문에 리뷰 중복 작성, 상품 별점 합계가 꼬이는 걸 막는 Lock
+review_lock = threading.Lock()
 
 
 # DB에서 리뷰 가져오기
