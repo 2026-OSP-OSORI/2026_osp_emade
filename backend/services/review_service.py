@@ -17,6 +17,14 @@ def _get_review(rid):
     return db.reference(f"reviews/{rid}").get()
 
 
+# DB에서 존재하는 리뷰 가져오기 (없으면 404)
+def _get_existing_review(rid):
+    review = _get_review(rid)
+    if review is None:
+        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    return review
+
+
 # DB에서 상품 가져오기
 def _get_product(pid):
     return db.reference(f"products/{pid}").get()
@@ -201,9 +209,7 @@ def get_review_summary(pid):
 
 # 리뷰 상세 가져오기
 def get_review_detail(my_uid, rid):
-    review = _get_review(rid)
-    if review is None:
-        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    review = _get_existing_review(rid)
 
     pid = review.get("pid")
     product = _get_product(pid) or {}
