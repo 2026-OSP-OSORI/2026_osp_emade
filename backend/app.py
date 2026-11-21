@@ -7,6 +7,7 @@ from firebase import init_firebase
 from routes.auth import auth_bp
 from routes.users import users_bp
 from routes.rankings import rankings_bp
+from routes.reviews import reviews_bp
 from utils.exceptions import AppError
 from utils.response import error
 
@@ -33,6 +34,7 @@ def health():
 app.register_blueprint(auth_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(rankings_bp)
+app.register_blueprint(reviews_bp)
 
 
 # service에서 던진 AppError를 공통 에러 응답으로 변환
