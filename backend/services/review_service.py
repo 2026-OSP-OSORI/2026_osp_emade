@@ -395,9 +395,7 @@ def create_review(my_uid, oid, title, rating, content, files):
 
 # 리뷰가 있고 내 것인지 확인. action: '수정' 또는 '삭제'
 def _get_my_review(my_uid, rid, action):
-    review = _get_review(rid)
-    if review is None:
-        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    review = _get_existing_review(rid)
     if review.get("uid") != my_uid:
         raise AppError(403, "FORBIDDEN", f"*본인이 작성한 리뷰만 {action}할 수 있어요.")
     return review
@@ -455,3 +453,5 @@ def delete_review(my_uid, rid):
             f"products/{pid}/ratingSum": max(rating_sum - review.get("rating", 0), 0),
             f"products/{pid}/reviewCount": max(review_count - 1, 0),
         })
+
+
