@@ -17,6 +17,14 @@ def _get_review(rid):
     return db.reference(f"reviews/{rid}").get()
 
 
+# DB에서 존재하는 리뷰 가져오기 (없으면 404)
+def _get_existing_review(rid):
+    review = _get_review(rid)
+    if review is None:
+        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    return review
+
+
 # DB에서 상품 가져오기
 def _get_product(pid):
     return db.reference(f"products/{pid}").get()
@@ -201,9 +209,7 @@ def get_review_summary(pid):
 
 # 리뷰 상세 가져오기
 def get_review_detail(my_uid, rid):
-    review = _get_review(rid)
-    if review is None:
-        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    review = _get_existing_review(rid)
 
     pid = review.get("pid")
     product = _get_product(pid) or {}
@@ -389,9 +395,7 @@ def create_review(my_uid, oid, title, rating, content, files):
 
 # 리뷰가 있고 내 것인지 확인. action: '수정' 또는 '삭제'
 def _get_my_review(my_uid, rid, action):
-    review = _get_review(rid)
-    if review is None:
-        raise AppError(404, "REVIEW_NOT_FOUND", "*리뷰를 찾을 수 없습니다.")
+    review = _get_existing_review(rid)
     if review.get("uid") != my_uid:
         raise AppError(403, "FORBIDDEN", f"*본인이 작성한 리뷰만 {action}할 수 있어요.")
     return review
@@ -449,3 +453,55 @@ def delete_review(my_uid, rid):
             f"products/{pid}/ratingSum": max(rating_sum - review.get("rating", 0), 0),
             f"products/{pid}/reviewCount": max(review_count - 1, 0),
         })
+        
+
+# 도움돼요
+def add_helpful(my_uid, rid):
+    with review_lock:
+        _get_existing_review(rid) # 없는 리뷰면 404
+        if _is_helpful(my_uid, rid): # 이미 눌렀으면 그냥 성공
+            return
+
+        count = db.reference(f"reviews/{rid}/helpfulCount").get() or 0
+        db.reference().update({
+            f"reviewHelpful/{rid}/{my_uid}": True,
+            f"reviews/{rid}/helpfulCount": count + 1,
+        })
+
+
+# 도움돼요 취소
+def remove_helpful(my_uid, rid):
+    with review_lock:
+        _get_existing_review(rid) # 없는 리뷰면 404
+        if not _is_helpful(my_uid, rid): # 이미 안 눌렀으면 그냥 성공
+            return
+
+        count = db.reference(f"reviews/{rid}/helpfulCount").get() or 0
+        db.reference().update({
+            f"reviewHelpful/{rid}/{my_uid}": None,
+            f"reviews/{rid}/helpfulCount": max(count - 1, 0),
+        })
+
+
+# 판매자 답글 작성 (상품 판매자만, 리뷰당 1개)
+def add_seller_reply(my_uid, rid, content):
+    content = (content or "").strip()
+    if not content:
+        raise AppError(400, "MISSING_REQUIRED_FIELD", "*필수 항목을 입력하세요.")
+
+    with review_lock:
+        review = _get_existing_review(rid) # 없는 리뷰면 404
+        product = _get_product(review.get("pid"))
+        
+        if product is None or product.get("sellerId") != my_uid:
+            raise AppError(403, "FORBIDDEN", "*판매자만 답글을 작성할 수 있어요.")
+        if review.get("sellerReply"):
+            raise AppError(409, "REPLY_ALREADY_EXISTS", "*이미 답글을 작성했어요.")
+
+        replied_at = now_ms()
+        db.reference(f"reviews/{rid}").update({
+            "sellerReply": content,
+            "sellerRepliedAt": replied_at,
+        })
+
+    return {"sellerRepliedAt": ms_to_iso(replied_at)}

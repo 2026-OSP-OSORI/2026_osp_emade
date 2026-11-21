@@ -89,3 +89,28 @@ def update_review(rid):
 def delete_review(rid):
     review_service.delete_review(get_current_uid(), rid)
     return jsonify(success=True, data=None)
+
+
+# 도움돼요 API
+@reviews_bp.route("/reviews/<rid>/helpful", methods=["POST"])
+@login_required
+def add_helpful(rid):
+    review_service.add_helpful(get_current_uid(), rid)
+    return jsonify(success=True, data=None)
+
+
+# 도움돼요 취소 API
+@reviews_bp.route("/reviews/<rid>/helpful", methods=["DELETE"])
+@login_required
+def remove_helpful(rid):
+    review_service.remove_helpful(get_current_uid(), rid)
+    return jsonify(success=True, data=None)
+
+
+# 판매자 답글 작성 API
+@reviews_bp.route("/reviews/<rid>/reply", methods=["POST"])
+@login_required
+def add_seller_reply(rid):
+    data = request.get_json(silent=True) or {}
+    result = review_service.add_seller_reply(get_current_uid(), rid, data.get("content"))
+    return jsonify(success=True, data=result), 201
