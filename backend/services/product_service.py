@@ -7,7 +7,7 @@ from services.product_rules import ENDED, ON_SALE, delete_updates, status_after_
 from services.trade_errors import is_valid_key, trade_error
 from utils.exceptions import AppError
 from utils.locks import order_lock
-from utils.storage import discard_new_upload, upload_image
+from utils.image_upload import discard_new_upload, upload_image
 from utils.time_utils import ms_to_iso, now_ms
 
 _PUSH_CHARS = "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
