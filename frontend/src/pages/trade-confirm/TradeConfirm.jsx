@@ -6,8 +6,9 @@
 //     - 거래 시각 전(UPCOMING)       → 아직 확정할 수 없다고 안내
 //     - 취소 / 실패                    → 확정할 수 없다고 안내
 //     - 이미 완료                      → 거래 내역으로 돌아감
-//   '거래 완료' → PATCH /orders/{oid}/complete → 성공하면 거래 내역(/mypage/history)으로 돌아감
-//   아래 '리뷰를 작성해보세요!' 링크는 구매자(role: buying)에게만 보여 줌
+//   '거래 완료' → PATCH /orders/{oid}/complete → 성공하면
+//       구매자(role: buying)  → 리뷰 작성(/reviews/new?oid=)으로
+//       판매자(role: selling) → 거래 내역(/mypage/history)으로
 //   '거래 미성사' → 명세에 미성사 API 가 없어서 서버에는 보내지 않고 거래 내역 확인서로 이동합니다.
 //                   (아무도 확정하지 않으면 거래 시각 24시간 뒤 서버가 '거래 실패'로 처리)
 //   로그인이 필요한 화면이라, 로그인하지 않았으면 로그인 후 다시 이 화면으로 돌아옵니다.
@@ -89,8 +90,15 @@ export default function TradeConfirm() {
     }
   }, [loadedOrder, navigate]);
 
-  // 거래 확정이 끝나면 원래 있던 거래 내역으로 (뒤로 가기로 이 화면에 다시 오지 않게 replace)
-  const goHistory = () => navigate("/mypage/history", { replace: true });
+  // 거래 확정이 끝난 뒤 이동: 구매자는 리뷰 작성, 판매자는 거래 내역
+  //   (뒤로 가기로 이 화면에 다시 오지 않게 replace)
+  const goNext = () => {
+    const next =
+      loadedOrder?.role === "buying"
+        ? `/reviews/new?oid=${encodeURIComponent(id)}`
+        : "/mypage/history";
+    navigate(next, { replace: true });
+  };
 
   const handleComplete = async () => {
     if (sending) return;
@@ -98,10 +106,10 @@ export default function TradeConfirm() {
     setError("");
     try {
       await completeTrade(id);
-      goHistory();
+      goNext();
     } catch (err) {
-      // 상대방이 먼저 눌렀으면 이미 완료된 것 → 거래 내역으로
-      if (err.code === "ORDER_ALREADY_COMPLETED") goHistory();
+      // 상대방이 먼저 눌렀으면 이미 완료된 것 → 똑같이 다음 화면으로
+      if (err.code === "ORDER_ALREADY_COMPLETED") goNext();
       else {
         setError(toErrorMessage(err));
         setSending(false);
@@ -184,16 +192,6 @@ export default function TradeConfirm() {
           <p className={styles.error} role="alert">
             {error}
           </p>
-        )}
-
-        {/* 리뷰 작성 링크: 구매자에게만 */}
-        {order?.role === "buying" && (
-          <Link
-            to={`/reviews/new?oid=${encodeURIComponent(id)}`}
-            className={styles.reviewLink}
-          >
-            거래 물품에 대한 리뷰를 작성해보세요!
-          </Link>
         )}
       </main>
     </div>
