@@ -1,0 +1,67 @@
+/* 상품 등록 · 수정 화면 머리 (원본: product-reg.css 의 .breadcrumb, .page-title)
+   폼 본문은 components/ProductForm.module.css */
+
+.page {
+  padding-bottom: 80px;
+  color: #1a1a1a;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  color: #777;
+}
+
+.breadcrumb a {
+  color: #777;
+}
+
+.breadcrumb strong {
+  color: #222;
+}
+
+.pageTitle {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.32px;
+}
+
+.sub {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #6b6b6b;
+}
+
+.date {
+  font-size: 14px;
+  line-height: 22px;
+  color: #6b6b6b;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 120px 0;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.message a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}

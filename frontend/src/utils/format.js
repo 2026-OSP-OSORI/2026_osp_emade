@@ -23,3 +23,20 @@ export const maskNickname = (nickname) => {
 
 // 4.2 → "4.2", 5 → "5.0"
 export const formatRating = (rating) => Number(rating ?? 0).toFixed(1);
+
+// 거래 일시 "2026-11-03T12:00:00+09:00" → "11/3(월) 12:00"
+const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+export const formatTradeTime = (iso) => {
+  if (!iso) return "";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${date.getMonth() + 1}/${date.getDate()}(${WEEKDAYS[date.getDay()]}) ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
+
+// tradeKey "20261103_1200" → "11/3(월) 12:00"  (장바구니·상세에서 고른 시간 표시)
+export const formatTradeKey = (tradeKey) => {
+  const m = /^(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})$/.exec(tradeKey ?? "");
+  if (!m) return "";
+  return formatTradeTime(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:00+09:00`);
+};

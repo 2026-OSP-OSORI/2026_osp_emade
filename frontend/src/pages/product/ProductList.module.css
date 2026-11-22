@@ -1,0 +1,130 @@
+/* 상품 목록 (원본: product-list.css)
+   Layout 본문 폭(1200 - 여백)에 맞춰 필터 폭을 240 → 190px 로 줄였어요. */
+
+.page {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  column-gap: 24px;
+  padding-bottom: 40px;
+  color: var(--color-text-primary);
+}
+
+/* ---------- 필터 (왼쪽) ---------- */
+.filter {
+  padding: 18px 15px 14px 10px;
+  border-right: 2px solid var(--color-border-default);
+}
+
+.group + .group {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 2px solid var(--color-border-default);
+}
+
+.groupTitle {
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #2e7d5b;
+  cursor: pointer;
+}
+
+/* 최소 금액 — 최대 금액 */
+.priceRange {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 18px;
+}
+
+.priceInput {
+  width: 70px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: center;
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+.priceInput::placeholder {
+  color: var(--color-text-primary);
+}
+
+.priceInput:focus {
+  border-color: var(--color-border-focus);
+}
+
+.dash {
+  width: 12px;
+  height: 1px;
+  margin: 0 4px;
+  background: var(--color-border-default);
+}
+
+/* ---------- 상품 목록 (오른쪽) ---------- */
+.title {
+  margin: 18px 0 42px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 220px);
+  column-gap: 16px;
+  row-gap: 48px;
+  transition: opacity 0.2s;
+}
+
+.loading {
+  opacity: 0.4;
+}
+
+/* Card 기본 카드를 피그마(220x280) 크기에 맞춤 — Card 가 쓰는 CSS 변수만 바꿔요 */
+.grid > article {
+  --card-pad: 8px;
+  --thumb-height: 114px;
+  border-radius: var(--radius-md);
+}
+
+.message {
+  padding: 60px 0;
+  font-size: 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* 페이지 번호 (공통 Pagination) */
+.pagination {
+  grid-column: 1 / -1;
+  margin-top: 75px;
+}
