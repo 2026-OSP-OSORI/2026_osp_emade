@@ -7,6 +7,7 @@ venv/
 .venv/
 __pycache__/
 *.pyc
+/backend/images/
 
 # Environment
 .env
