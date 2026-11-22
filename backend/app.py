@@ -12,6 +12,7 @@ from routes.schedules import schedules_bp
 from routes.cart_items import cart_items_bp
 from routes.orders import orders_bp
 from routes.badges import badges_bp
+from routes.products import products_bp
 from utils.exceptions import AppError
 from utils.response import error
 
@@ -43,6 +44,7 @@ app.register_blueprint(schedules_bp)
 app.register_blueprint(cart_items_bp)
 app.register_blueprint(orders_bp)
 app.register_blueprint(badges_bp)
+app.register_blueprint(products_bp)
 
 
 

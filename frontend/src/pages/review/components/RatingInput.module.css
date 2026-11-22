@@ -1,0 +1,17 @@
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.star {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.star:hover {
+  transform: scale(1.08);
+}

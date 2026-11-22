@@ -5,6 +5,8 @@ from datetime import datetime, timedelta, timezone
 KST = timezone(timedelta(hours=9))
 DAY_MS = 24 * 60 * 60 * 1000
 BLOCK_MINUTES = 30
+_MINUTE_MS = 60_000
+_BLOCK_MS = BLOCK_MINUTES * _MINUTE_MS
 
 
 # ---------------------------------------------------------------------
@@ -83,6 +85,16 @@ def ms_to_date(ms):
 def ms_to_date_key(ms):
     """epoch ms -> 'YYYYMMDD'. rankingDaily/{날짜 키} 처럼 '오늘 날짜 키'가 필요할 때."""
     return datetime.fromtimestamp(ms / 1000, KST).strftime("%Y%m%d")
+
+
+def today_key():
+    return ms_to_date_key(now_ms())
+
+
+def booking_window_ms():
+    """한국 시간 기준 오늘 포함 30일. 반환한 끝 시각은 예약 기간에서 제외한다."""
+    start_ms = date_start_ms(today_date())
+    return start_ms, start_ms + 30 * DAY_MS
 
 
 # ---------------------------------------------------------------------
@@ -172,44 +184,89 @@ def make_trade_key(date_str, hhmm):
 # 시간 범위: DB '0700-1100' <-> API {"start": "07:00", "end": "11:00"}
 # ---------------------------------------------------------------------
 
-_HHMM_RE = re.compile(r"^\d{2}:\d{2}$")
+_HHMM_RE = re.compile(r"[0-9]{2}:[0-9]{2}")
+_DB_RANGE_RE = re.compile(r"[0-9]{4}-[0-9]{4}")
 
 
-def _hhmm_to_minutes(hhmm_colon):
-    if not isinstance(hhmm_colon, str) or not _HHMM_RE.match(hhmm_colon):
+def _hhmm_to_ms(hhmm_colon):
+    if not isinstance(hhmm_colon, str) or not _HHMM_RE.fullmatch(hhmm_colon):
         raise ValueError(f"시각 형식 틀림: {hhmm_colon}")
     h, m = int(hhmm_colon[:2]), int(hhmm_colon[3:])
     if not (0 <= h <= 24 and 0 <= m < 60) or (h == 24 and m != 0):
         raise ValueError(f"없는 시각: {hhmm_colon}")
-    return h * 60 + m
+    return (h * 60 + m) * _MINUTE_MS
+
+
+def _range_bounds_ms(r):
+    if not isinstance(r, dict):
+        raise ValueError(f"시간 범위는 start, end 객체여야 함: {r}")
+    start_ms, end_ms = _hhmm_to_ms(r.get("start")), _hhmm_to_ms(r.get("end"))
+    if start_ms % _BLOCK_MS or end_ms % _BLOCK_MS:
+        raise ValueError(f"30분 단위가 아님: {r}")
+    if start_ms >= end_ms:
+        raise ValueError(f"시작 >= 끝: {r}")
+    return start_ms, end_ms
+
+
+def _db_range_bounds_ms(db_range):
+    if not isinstance(db_range, str) or not _DB_RANGE_RE.fullmatch(db_range):
+        raise ValueError(f"DB 시간 범위 형식 틀림: {db_range}")
+    start, end = db_range.split("-")
+    return _range_bounds_ms({"start": f"{start[:2]}:{start[2:]}", "end": f"{end[:2]}:{end[2:]}"})
+
+
+def _format_hhmm(ms, separator=""):
+    hour, minute = divmod(ms // _MINUTE_MS, 60)
+    return f"{hour:02d}{separator}{minute:02d}"
+
+
+def _format_db_range(start_ms, end_ms):
+    return f"{_format_hhmm(start_ms)}-{_format_hhmm(end_ms)}"
 
 
 def range_to_db(r):
     """{"start": "07:00", "end": "11:00"} -> '0700-1100'.
     30분 단위, 시작 < 끝 검사. 하루 전체는 {"start": "00:00", "end": "24:00"}."""
-    s, e = _hhmm_to_minutes(r.get("start")), _hhmm_to_minutes(r.get("end"))
-    if s % BLOCK_MINUTES or e % BLOCK_MINUTES:
-        raise ValueError(f"30분 단위가 아님: {r}")
-    if s >= e:
-        raise ValueError(f"시작 >= 끝: {r}")
-    return f"{r['start'].replace(':', '')}-{r['end'].replace(':', '')}"
+    return _format_db_range(*_range_bounds_ms(r))
 
 
 def range_to_api(db_range):
     """'0700-1100' -> {"start": "07:00", "end": "11:00"}"""
-    s, e = db_range.split("-")
-    return {"start": f"{s[:2]}:{s[2:]}", "end": f"{e[:2]}:{e[2:]}"}
+    start_ms, end_ms = _db_range_bounds_ms(db_range)
+    return {"start": _format_hhmm(start_ms, ":"), "end": _format_hhmm(end_ms, ":")}
 
 
 def ranges_to_db(ranges):
     """API 범위 목록 -> DB 문자열 목록. 시작 시각 순으로 정렬하고, 겹치면 ValueError."""
-    out = sorted(range_to_db(r) for r in (ranges or []))
+    out = sorted(_range_bounds_ms(r) for r in (ranges or []))
     for prev, cur in zip(out, out[1:]):
-        if cur.split("-")[0] < prev.split("-")[1]:
+        if cur[0] < prev[1]:
             raise ValueError(f"범위 겹침: {prev}, {cur}")
-    return out
+    return [_format_db_range(start_ms, end_ms) for start_ms, end_ms in out]
 
 
 def ranges_to_api(db_ranges):
     """DB 문자열 목록 -> API 범위 목록"""
     return [range_to_api(r) for r in (db_ranges or [])]
+
+
+def merge_ranges(ranges):
+    """겹치거나 맞닿은 API 시간 범위를 병합해 DB 저장 형식으로 반환한다."""
+    if not isinstance(ranges, list):
+        raise ValueError("시간 범위는 배열이어야 함")
+    merged = []
+    for start_ms, end_ms in sorted(_range_bounds_ms(item) for item in ranges):
+        if merged and start_ms <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end_ms)
+        else:
+            merged.append([start_ms, end_ms])
+    return [_format_db_range(start_ms, end_ms) for start_ms, end_ms in merged]
+
+
+def ranges_to_block_times(ranges):
+    """DB 시간 범위를 끝 시각을 제외한 30분 시작 시각(HHmm) 목록으로 바꾼다."""
+    blocks = []
+    for db_range in ranges or []:
+        start_ms, end_ms = _db_range_bounds_ms(db_range)
+        blocks.extend(_format_hhmm(ms) for ms in range(start_ms, end_ms, _BLOCK_MS))
+    return blocks
