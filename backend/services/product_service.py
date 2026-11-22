@@ -12,7 +12,7 @@ from services.trade_errors import is_valid_key, trade_error
 from utils.exceptions import AppError
 from utils.locks import order_lock
 from utils.image_upload import discard_new_upload, upload_image
-from utils.time_utils import ms_to_iso, now_ms
+from utils.time_utils import DAY_MS, ms_to_date_key, ms_to_iso, now_ms
 
 _PUSH_CHARS = "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 _CATEGORIES = {
@@ -21,6 +21,8 @@ _CATEGORIES = {
 _MAX_IMAGES = 10
 _DEFAULT_LIMIT = 20
 _MAX_LIMIT = 50
+_POPULAR_DEFAULT_LIMIT = 3
+_POPULAR_MAX_LIMIT = 10
 _STATUSES = {ON_SALE, TEMP_SOLD_OUT, ENDED}
 
 
@@ -264,8 +266,26 @@ def create_product(uid, form, files):
     return {"pid": pid, "status": ON_SALE, "createdAt": ms_to_iso(created_at)}
 
 
-def _sort_key(item, sort):
+def _ranking_scores(day):
+    scores = db.reference(f"rankingDaily/{day}/products").get() or {}
+    return {pid: score for pid, score in scores.items() if type(score) is int and score > 0}
+
+
+def _yesterday_key():
+    return ms_to_date_key(now_ms() - DAY_MS)
+
+
+def _query_limit(query, default=_DEFAULT_LIMIT, maximum=_MAX_LIMIT):
+    limit = _nonnegative_int(query.get("limit", default))
+    if not 1 <= limit <= maximum:
+        raise _invalid(f"*조회 개수는 1~{maximum} 사이여야 해요.")
+    return limit
+
+
+def _sort_key(item, sort, scores):
     pid, product = item
+    if sort == "popular":
+        return scores.get(pid, 0), 0, pid
     sales = (product.get("soldCount") or 0) if sort == "soldCount" else 0
     return sales, product.get("createdAt") or 0, pid
 
@@ -275,18 +295,18 @@ def _encode_cursor(filters, key):
     return urlsafe_b64encode(data).decode().rstrip("=")
 
 
-def _decode_cursor(cursor, filters):
+def _decode_cursor(cursor, filters, *, key_size=3):
     if cursor is None:
         return None
     try:
         data = b64decode(cursor + "=" * (-len(cursor) % 4), altchars=b"-_", validate=True)
         payload = json.loads(data)
-        if (not isinstance(payload, list) or len(payload) != len(filters) + 3 or
-                payload[:-3] != list(filters) or
-                type(payload[-3]) is not int or type(payload[-2]) is not int or
+        if (not isinstance(payload, list) or len(payload) != len(filters) + key_size or
+                payload[:-key_size] != list(filters) or
+                any(type(value) is not int for value in payload[-key_size:-1]) or
                 not _valid_key(payload[-1])):
             raise ValueError("Invalid product cursor")
-        return tuple(payload[-3:])
+        return tuple(payload[-key_size:])
     except (Base64Error, ValueError) as exc:
         raise _invalid("*상품 목록 조회 위치를 다시 확인해주세요.") from exc
 
@@ -311,13 +331,17 @@ def _normalize_search_text(value):
     return normalize("NFC", value).casefold() if isinstance(value, str) else ""
 
 
+def _user_likes(uid):
+    return db.reference(f"likes/{uid}").get() or {}
+
+
 def list_products(uid, query):
     sort = query.get("sort", "newest")
     seller_id = query.get("sellerId")
     category = query.get("category")
     status = query.get("status")
     keyword = _normalize_search_text(query.get("query")).strip()
-    if sort not in ("newest", "soldCount"):
+    if sort not in ("newest", "soldCount", "popular"):
         raise _invalid("*상품 정렬 조건을 다시 확인해주세요.")
     if seller_id is not None and not _valid_key(seller_id):
         raise _invalid("*판매자 ID를 다시 확인해주세요.")
@@ -325,34 +349,131 @@ def list_products(uid, query):
         raise _invalid("*상품 카테고리를 다시 확인해주세요.")
     if status is not None and status not in _STATUSES:
         raise _invalid("*상품 판매 상태를 다시 확인해주세요.")
-    limit = _nonnegative_int(query.get("limit", _DEFAULT_LIMIT))
-    if not 1 <= limit <= _MAX_LIMIT:
-        raise _invalid(f"*조회 개수는 1~{_MAX_LIMIT} 사이여야 해요.")
+    limit = _query_limit(query)
 
     filters = sort, seller_id, category, status
     if keyword:
         filters += (keyword,)
+    ranking_day = _yesterday_key() if sort == "popular" else None
+    if ranking_day:
+        filters += (ranking_day,)
     after = _decode_cursor(query.get("cursor"), filters)
+    scores = _ranking_scores(ranking_day) if ranking_day else {}
     products = db.reference("products").get() or {}
     matching = [
         (pid, product) for pid, product in products.items()
         if isinstance(product, dict)
         and not product.get("deleted")
+        and (sort != "popular" or not product.get("pendingDelete"))
         and (seller_id is None or product.get("sellerId") == seller_id)
         and (category is None or product.get("category") == category)
         and (status is None or product.get("status") == status)
         and (not keyword or keyword in _normalize_search_text(product.get("name")))
     ]
-    matching.sort(key=lambda item: _sort_key(item, sort), reverse=True)
+    def sort_key(item):
+        return _sort_key(item, sort, scores)
+
+    matching.sort(key=sort_key, reverse=True)
     if after is not None:
-        matching = [item for item in matching if _sort_key(item, sort) < after]
+        matching = [item for item in matching if sort_key(item) < after]
     page = matching[:limit]
-    likes = (db.reference(f"likes/{uid}").get() or {}) if uid and page else {}
-    next_cursor = _encode_cursor(filters, _sort_key(page[-1], sort)) if len(matching) > limit else None
+    likes = _user_likes(uid) if uid and page else {}
+    next_cursor = _encode_cursor(filters, sort_key(page[-1])) if len(matching) > limit else None
     return {
         "items": [_product_card(pid, product, pid in likes) for pid, product in page],
         "nextCursor": next_cursor,
     }
+
+
+def list_popular_products(uid, query):
+    limit = _query_limit(query, _POPULAR_DEFAULT_LIMIT, _POPULAR_MAX_LIMIT)
+    scores = _ranking_scores(_yesterday_key())
+    candidates = sorted(scores, key=lambda pid: (scores[pid], pid), reverse=True)
+    likes = _user_likes(uid) if uid and candidates else {}
+    rankings = []
+    previous_score = None
+    rank = 0
+    for pid in candidates:
+        product = db.reference(f"products/{pid}").get()
+        if not isinstance(product, dict) or product.get("deleted") or product.get("pendingDelete"):
+            continue
+        if scores[pid] != previous_score:
+            previous_score = scores[pid]
+            rank = len(rankings) + 1
+        card = _product_card(pid, product, pid in likes)
+        card.update(rank=rank, soldCount=product.get("soldCount") or 0)
+        rankings.append(card)
+        if len(rankings) == limit:
+            break
+    return rankings
+
+
+def like_product(uid, pid):
+    if not _valid_key(pid):
+        raise trade_error("PRODUCT_NOT_FOUND")
+    like_path = f"likes/{uid}/{pid}"
+    with order_lock:
+        if db.reference(like_path).get() is not None:
+            return
+        product = _find_product(pid)
+        liked_at = now_ms()
+        score_path = f"rankingDaily/{ms_to_date_key(liked_at)}/products/{pid}"
+        score = db.reference(score_path).get() or 0
+        db.reference().update({
+            like_path: liked_at,
+            f"productLikes/{pid}/{uid}": True,
+            f"products/{pid}/likeCount": (product.get("likeCount") or 0) + 1,
+            score_path: score + 1,
+        })
+
+
+def unlike_product(uid, pid):
+    if not _valid_key(pid):
+        raise trade_error("PRODUCT_NOT_FOUND")
+    like_path = f"likes/{uid}/{pid}"
+    with order_lock:
+        liked_at = db.reference(like_path).get()
+        if liked_at is None:
+            return
+        updates = {
+            like_path: None,
+            f"productLikes/{pid}/{uid}": None,
+        }
+        product = db.reference(f"products/{pid}").get()
+        if isinstance(product, dict):
+            updates[f"products/{pid}/likeCount"] = max(0, (product.get("likeCount") or 0) - 1)
+        today = ms_to_date_key(now_ms())
+        if type(liked_at) is int and ms_to_date_key(liked_at) == today:
+            score_path = f"rankingDaily/{today}/products/{pid}"
+            score = db.reference(score_path).get() or 0
+            updates[score_path] = max(0, score - 1)
+        db.reference().update(updates)
+
+
+def list_liked_products(uid, query):
+    limit = _query_limit(query)
+    filters = ("likes", uid)
+    after = _decode_cursor(query.get("cursor"), filters, key_size=2)
+    candidates = sorted(
+        ((liked_at, pid) for pid, liked_at in _user_likes(uid).items()
+         if type(liked_at) is int and (after is None or (liked_at, pid) < after)),
+        reverse=True,
+    )
+    items = []
+    next_cursor = None
+    last_key = None
+    for liked_at, pid in candidates:
+        product = db.reference(f"products/{pid}").get()
+        if not isinstance(product, dict) or product.get("deleted"):
+            continue
+        if len(items) == limit:
+            next_cursor = _encode_cursor(filters, last_key)
+            break
+        card = _product_card(pid, product, True)
+        card["likedAt"] = ms_to_iso(liked_at)
+        items.append(card)
+        last_key = (liked_at, pid)
+    return {"items": items, "nextCursor": next_cursor}
 
 
 def get_product(uid, pid):

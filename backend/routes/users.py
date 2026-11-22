@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 
 from utils.auth import get_current_uid, login_required
 
-from services import user_service, follow_service
+from services import follow_service, product_service, user_service
 
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -26,6 +26,13 @@ def check_nickname():
 @login_required
 def my_summary():
     data = user_service.get_my_summary(get_current_uid())
+    return jsonify(success=True, data=data)
+
+
+@users_bp.route("/me/likes", methods=["GET"])
+@login_required
+def my_likes():
+    data = product_service.list_liked_products(get_current_uid(), request.args)
     return jsonify(success=True, data=data)
 
 
