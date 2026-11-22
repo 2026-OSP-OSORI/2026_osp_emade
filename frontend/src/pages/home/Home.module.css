@@ -1,0 +1,100 @@
+/* 메인 (원본: index.css) */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 40px;
+  color: var(--color-text-primary);
+}
+
+/* ---------- 배너 ---------- */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  height: 308px;
+  margin: 0 20px;
+  padding: 0 40px 0 58px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-primary-light);
+}
+
+.bannerSub {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.bannerTitle {
+  margin-top: 30px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.bannerDesc {
+  margin-top: 36px;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+}
+
+.bannerButton {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  margin-top: 46px;
+  padding: 0 32px;
+  border-radius: 6px;
+  background: var(--color-primary);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.bannerButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.bannerImage {
+  flex-shrink: 0;
+  width: 440px;
+  height: 290px;
+  object-fit: contain;
+}
+
+/* ---------- 상품 목록 ---------- */
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 카드 크기는 Card 컴포넌트 기본값 그대로, 화면이 좁아도 줄어들지 않음 */
+.popularList,
+.recommendList {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 14px 4px 10px;
+}
+
+.sectionTitle {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.more {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.more:hover {
+  color: var(--color-primary);
+}
