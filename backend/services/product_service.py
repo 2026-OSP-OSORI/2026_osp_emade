@@ -2,6 +2,7 @@ import json
 from base64 import b64decode, urlsafe_b64encode
 from binascii import Error as Base64Error
 from secrets import choice
+from unicodedata import normalize
 
 from firebase_admin import db
 
@@ -280,12 +281,12 @@ def _decode_cursor(cursor, filters):
     try:
         data = b64decode(cursor + "=" * (-len(cursor) % 4), altchars=b"-_", validate=True)
         payload = json.loads(data)
-        if (not isinstance(payload, list) or len(payload) != 7 or
-                payload[:4] != list(filters) or
-                type(payload[4]) is not int or type(payload[5]) is not int or
-                not _valid_key(payload[6])):
+        if (not isinstance(payload, list) or len(payload) != len(filters) + 3 or
+                payload[:-3] != list(filters) or
+                type(payload[-3]) is not int or type(payload[-2]) is not int or
+                not _valid_key(payload[-1])):
             raise ValueError("Invalid product cursor")
-        return tuple(payload[4:])
+        return tuple(payload[-3:])
     except (Base64Error, ValueError) as exc:
         raise _invalid("*상품 목록 조회 위치를 다시 확인해주세요.") from exc
 
@@ -306,11 +307,16 @@ def _product_card(pid, product, is_liked):
     }
 
 
+def _normalize_search_text(value):
+    return normalize("NFC", value).casefold() if isinstance(value, str) else ""
+
+
 def list_products(uid, query):
     sort = query.get("sort", "newest")
     seller_id = query.get("sellerId")
     category = query.get("category")
     status = query.get("status")
+    keyword = _normalize_search_text(query.get("query")).strip()
     if sort not in ("newest", "soldCount"):
         raise _invalid("*상품 정렬 조건을 다시 확인해주세요.")
     if seller_id is not None and not _valid_key(seller_id):
@@ -324,6 +330,8 @@ def list_products(uid, query):
         raise _invalid(f"*조회 개수는 1~{_MAX_LIMIT} 사이여야 해요.")
 
     filters = sort, seller_id, category, status
+    if keyword:
+        filters += (keyword,)
     after = _decode_cursor(query.get("cursor"), filters)
     products = db.reference("products").get() or {}
     matching = [
@@ -333,6 +341,7 @@ def list_products(uid, query):
         and (seller_id is None or product.get("sellerId") == seller_id)
         and (category is None or product.get("category") == category)
         and (status is None or product.get("status") == status)
+        and (not keyword or keyword in _normalize_search_text(product.get("name")))
     ]
     matching.sort(key=lambda item: _sort_key(item, sort), reverse=True)
     if after is not None:
