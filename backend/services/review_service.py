@@ -3,6 +3,7 @@ import threading
 
 from utils.exceptions import AppError
 from utils.time_utils import ms_to_iso, now_ms
+from utils.image_upload import upload_image
 
 PHOTO_PREVIEW_LIMIT = 6
 MIN_CONTENT_LENGTH = 20
@@ -322,11 +323,12 @@ def _validate_images(files, keep_count):
             raise _invalid("*올바른 이미지 파일을 등록해주세요.")
 
 
-# 이미지 업로드. 백2 이미지 업로드 방식 확정 후 구현
-def _upload_images(files):
-    if not files:
-        return []
-    raise NotImplementedError("이미지 업로드는 백2 방식 확정 후 구현")
+# 이미지 업로드 (images/reviews/{uid}/ 에 저장하고 URL 목록 반환)
+def _upload_images(files, uid):
+    urls = []
+    for file in files:
+        urls.append(upload_image(file, f"reviews/{uid}"))
+    return urls
 
 
 # 리뷰 작성 가능 주문인지 확인
@@ -356,7 +358,7 @@ def create_review(my_uid, oid, title, rating, content, files):
     order = _get_reviewable_order(my_uid, oid)
     pid = order["pid"]
 
-    image_urls = _upload_images(files)
+    image_urls = _upload_images(files, my_uid)
 
     with review_lock:
         # Lock 안에서 다시 확인 (동시에 두 번 눌러도 리뷰는 하나만)
@@ -415,7 +417,7 @@ def update_review(my_uid, rid, title, rating, content, keep_images, files):
 
     files = _real_files(files)
     _validate_images(files, len(kept))
-    new_urls = _upload_images(files)
+    new_urls = _upload_images(files, my_uid)
 
     pid = review.get("pid")
 
