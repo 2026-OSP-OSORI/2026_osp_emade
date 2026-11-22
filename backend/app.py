@@ -8,6 +8,9 @@ from routes.auth import auth_bp
 from routes.users import users_bp
 from routes.rankings import rankings_bp
 from routes.reviews import reviews_bp
+from routes.schedules import schedules_bp
+from routes.cart_items import cart_items_bp
+from routes.orders import orders_bp
 from utils.exceptions import AppError
 from utils.response import error
 
@@ -35,6 +38,10 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(rankings_bp)
 app.register_blueprint(reviews_bp)
+app.register_blueprint(schedules_bp)
+app.register_blueprint(cart_items_bp)
+app.register_blueprint(orders_bp)
+
 
 
 # service에서 던진 AppError를 공통 에러 응답으로 변환
