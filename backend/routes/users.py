@@ -59,3 +59,11 @@ def follow_seller(uid):
 def unfollow_seller(uid):
     follow_service.unfollow(get_current_uid(), uid)
     return jsonify(success=True, data=None)
+
+
+# 프로필 사진 변경 API
+@users_bp.route("/me/profile-image", methods=["PATCH"])
+@login_required
+def change_profile_image():
+    url = user_service.change_profile_image(get_current_uid(), request.files.get("image"))
+    return jsonify(success=True, data={"profileImage": url})
