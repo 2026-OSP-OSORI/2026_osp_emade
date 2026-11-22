@@ -6,7 +6,6 @@ const AUTH_PAGES = ["/login", "/signup"];
 export const getRedirectPath = (from) => {
   if (typeof from !== "string") return "/";
   if (!from.startsWith("/") || from.startsWith("//")) return "/";
-  if (AUTH_PAGES.some((page) => from === page || from.startsWith(`${page}?`)))
-    return "/";
+  if (AUTH_PAGES.some((page) => from === page || from.startsWith(`${page}?`))) return "/";
   return from;
 };

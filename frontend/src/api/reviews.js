@@ -5,14 +5,13 @@ import { api } from "./client";
 const toQuery = (params) => {
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "")
-      query.set(key, value);
+    if (value !== undefined && value !== null && value !== "") query.set(key, value);
   });
   const text = query.toString();
   return text ? `?${text}` : "";
 };
 
-// 리뷰 목록 정렬 값
+// 리뷰 목록 정렬 값 (백엔드와 같은 값)
 export const REVIEW_SORTS = [
   { value: "latest", label: "최신순" },
   { value: "rating_high", label: "평점 높은 순" },
@@ -21,17 +20,11 @@ export const REVIEW_SORTS = [
 ];
 
 // 상품 리뷰 목록 → { total, page, reviews: [...] }
-export const getProductReviews = (
-  pid,
-  { sort = "latest", photoOnly = false, page = 1, limit = 10 } = {},
-) =>
-  api.get(
-    `/products/${pid}/reviews${toQuery({ sort, photoOnly, page, limit })}`,
-  );
+export const getProductReviews = (pid, { sort = "latest", photoOnly = false, page = 1, limit = 10 } = {}) =>
+  api.get(`/products/${pid}/reviews${toQuery({ sort, photoOnly, page, limit })}`);
 
 // 상품 리뷰 별점 요약 → { averageRating, reviewCount, ratingDistribution, photoReviewCount, photoPreviews }
-export const getReviewSummary = (pid) =>
-  api.get(`/products/${pid}/reviews/summary`);
+export const getReviewSummary = (pid) => api.get(`/products/${pid}/reviews/summary`);
 
 // 리뷰 상세
 export const getReviewDetail = (rid) => api.get(`/reviews/${rid}`);
@@ -50,10 +43,7 @@ export const createReview = ({ oid, title, rating, content, images = [] }) => {
 
 // 리뷰 수정
 //   keepImages: 남길 기존 사진 URL 목록, images: 새로 올릴 File 목록
-export const updateReview = (
-  rid,
-  { title, rating, content, keepImages = [], images = [] },
-) => {
+export const updateReview = (rid, { title, rating, content, keepImages = [], images = [] }) => {
   const body = new FormData();
   body.append("title", title);
   body.append("rating", rating);
@@ -70,5 +60,4 @@ export const addHelpful = (rid) => api.post(`/reviews/${rid}/helpful`);
 export const removeHelpful = (rid) => api.delete(`/reviews/${rid}/helpful`);
 
 // 판매자 답글 → { sellerRepliedAt }
-export const addSellerReply = (rid, content) =>
-  api.post(`/reviews/${rid}/reply`, { content });
+export const addSellerReply = (rid, content) => api.post(`/reviews/${rid}/reply`, { content });
