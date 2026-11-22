@@ -4,8 +4,10 @@
 //   들어오면 먼저 거래 내역 확인서(GET /orders/{oid})로 지금 상태를 확인합니다.
 //     - actions.canComplete = true  → '거래 완료' 버튼 사용 가능 (거래 시각 ~ +24시간)
 //     - 거래 시각 전(UPCOMING)       → 아직 확정할 수 없다고 안내
-//     - 이미 완료 / 취소 / 실패        → 결과 안내
-//   '거래 완료' → PATCH /orders/{oid}/complete
+//     - 취소 / 실패                    → 확정할 수 없다고 안내
+//     - 이미 완료                      → 거래 내역으로 돌아감
+//   '거래 완료' → PATCH /orders/{oid}/complete → 성공하면 거래 내역(/mypage/history)으로 돌아감
+//   아래 '리뷰를 작성해보세요!' 링크는 구매자(role: buying)에게만 보여 줌
 //   '거래 미성사' → 명세에 미성사 API 가 없어서 서버에는 보내지 않고 거래 내역 확인서로 이동합니다.
 //                   (아무도 확정하지 않으면 거래 시각 24시간 뒤 서버가 '거래 실패'로 처리)
 //   로그인이 필요한 화면이라, 로그인하지 않았으면 로그인 후 다시 이 화면으로 돌아옵니다.
@@ -17,9 +19,10 @@ import { toErrorMessage } from "../../utils/validation";
 import styles from "./TradeConfirm.module.css";
 
 // 화면에 보여 줄 상태 정하기
-//   ready: 확정 가능 / upcoming: 거래 시각 전 / done: 완료 / closed: 취소·실패
+//   ready: 확정 가능 / upcoming: 거래 시각 전 / done: 완료(→ 거래 내역으로 이동) / closed: 취소·실패
 const toView = (order) => {
-  if (order.status === "COMPLETED" || order.displayStatus === "COMPLETED") return "done";
+  if (order.status === "COMPLETED" || order.displayStatus === "COMPLETED")
+    return "done";
   if (order.actions?.canComplete) return "ready";
   if (order.displayStatus === "UPCOMING") return "upcoming";
   return "closed";
@@ -35,9 +38,14 @@ const formatTradeTime = (iso) => {
 };
 
 const TEXT = {
-  ready: { title: "거래가 완료되었나요?", desc: "거래 완료를 눌러 거래를 확정해보세요" },
-  done: { title: "거래가 완료되었어요", desc: "거래 물품에 대한 리뷰를 남겨 주세요." },
-  closed: { title: "확정할 수 없는 거래예요", desc: "취소되었거나 확정 기한이 지난 거래예요." },
+  ready: {
+    title: "거래가 완료되었나요?",
+    desc: "거래 완료를 눌러 거래를 확정해보세요",
+  },
+  closed: {
+    title: "확정할 수 없는 거래예요",
+    desc: "취소되었거나 확정 기한이 지난 거래예요.",
+  },
 };
 
 export default function TradeConfirm() {
@@ -48,7 +56,6 @@ export default function TradeConfirm() {
 
   // 불러온 주문을 어떤 id 의 것인지와 함께 보관
   const [result, setResult] = useState({ id: null, order: null, error: "" });
-  const [completedNow, setCompletedNow] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
@@ -65,11 +72,25 @@ export default function TradeConfirm() {
     let ignore = false;
     getOrder(id)
       .then((order) => !ignore && setResult({ id, order, error: "" }))
-      .catch((err) => !ignore && setResult({ id, order: null, error: toErrorMessage(err) }));
+      .catch(
+        (err) =>
+          !ignore && setResult({ id, order: null, error: toErrorMessage(err) }),
+      );
     return () => {
       ignore = true;
     };
   }, [id, isLoggedIn]);
+
+  // 이미 완료된 주문으로 들어오면 (새로고침 · 뒤로 가기 등) 바로 거래 내역으로
+  const loadedOrder = result.id === id ? result.order : null;
+  useEffect(() => {
+    if (loadedOrder && toView(loadedOrder) === "done") {
+      navigate("/mypage/history", { replace: true });
+    }
+  }, [loadedOrder, navigate]);
+
+  // 거래 확정이 끝나면 원래 있던 거래 내역으로 (뒤로 가기로 이 화면에 다시 오지 않게 replace)
+  const goHistory = () => navigate("/mypage/history", { replace: true });
 
   const handleComplete = async () => {
     if (sending) return;
@@ -77,13 +98,14 @@ export default function TradeConfirm() {
     setError("");
     try {
       await completeTrade(id);
-      setCompletedNow(true);
+      goHistory();
     } catch (err) {
-      // 상대방이 먼저 눌렀으면 이미 완료된 것 → 완료 화면으로
-      if (err.code === "ORDER_ALREADY_COMPLETED") setCompletedNow(true);
-      else setError(toErrorMessage(err));
-    } finally {
-      setSending(false);
+      // 상대방이 먼저 눌렀으면 이미 완료된 것 → 거래 내역으로
+      if (err.code === "ORDER_ALREADY_COMPLETED") goHistory();
+      else {
+        setError(toErrorMessage(err));
+        setSending(false);
+      }
     }
   };
 
@@ -93,9 +115,9 @@ export default function TradeConfirm() {
   if (isLoading || !isLoggedIn) return null; // 로그인 확인 중에는 빈 화면
 
   const isCurrent = result.id === id;
-  const order = isCurrent ? result.order : null;
+  const order = loadedOrder;
   const loadError = isCurrent ? result.error : "";
-  const view = completedNow ? "done" : order ? toView(order) : null;
+  const view = order ? toView(order) : null;
 
   const text =
     view === "upcoming"
@@ -117,11 +139,15 @@ export default function TradeConfirm() {
           <p className={`${styles.desc} ${styles.loadMessage}`} role="alert">
             {loadError}
           </p>
-        ) : !view ? (
-          <p className={`${styles.desc} ${styles.loadMessage}`}>거래 정보를 불러오는 중이에요.</p>
+        ) : !view || view === "done" ? (
+          <p className={`${styles.desc} ${styles.loadMessage}`}>
+            거래 정보를 불러오는 중이에요.
+          </p>
         ) : (
           <>
-            {order?.productName && <p className={styles.product}>{order.productName}</p>}
+            {order?.productName && (
+              <p className={styles.product}>{order.productName}</p>
+            )}
             <h1 className={styles.title}>{text.title}</h1>
             <p className={styles.desc}>{text.desc}</p>
 
@@ -136,7 +162,12 @@ export default function TradeConfirm() {
                   >
                     {sending ? "처리 중..." : "거래 완료"}
                   </button>
-                  <button type="button" className={styles.button} onClick={handleFail} disabled={sending}>
+                  <button
+                    type="button"
+                    className={styles.button}
+                    onClick={handleFail}
+                    disabled={sending}
+                  >
                     거래 미성사
                   </button>
                 </>
@@ -155,9 +186,12 @@ export default function TradeConfirm() {
           </p>
         )}
 
-        {/* 리뷰는 거래가 완료된 주문만 쓸 수 있음 */}
-        {view === "done" && (
-          <Link to={`/reviews/new?oid=${encodeURIComponent(id)}`} className={styles.reviewLink}>
+        {/* 리뷰 작성 링크: 구매자에게만 */}
+        {order?.role === "buying" && (
+          <Link
+            to={`/reviews/new?oid=${encodeURIComponent(id)}`}
+            className={styles.reviewLink}
+          >
             거래 물품에 대한 리뷰를 작성해보세요!
           </Link>
         )}
