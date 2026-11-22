@@ -12,7 +12,7 @@ const toQuery = (params) => {
   return text ? `?${text}` : "";
 };
 
-// 리뷰 목록 정렬 값
+// 리뷰 목록 정렬 값 (백엔드와 같은 값)
 export const REVIEW_SORTS = [
   { value: "latest", label: "최신순" },
   { value: "rating_high", label: "평점 높은 순" },

@@ -1,8 +1,7 @@
 // 화면에 보여줄 값 모양 맞추기
 
 // 12000 → "12,000원"
-export const formatPrice = (price) =>
-  `${Number(price ?? 0).toLocaleString()}원`;
+export const formatPrice = (price) => `${Number(price ?? 0).toLocaleString()}원`;
 
 // "2026-10-08T14:00:00+09:00" → "2026.10.08"
 export const formatDate = (iso) => {
