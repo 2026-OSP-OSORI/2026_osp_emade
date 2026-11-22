@@ -1,0 +1,122 @@
+/* 거래 확정 (원본: trade-confirm.css) */
+
+.page {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 150px 16px;
+  color: var(--color-text-primary);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  min-height: 720px;
+  padding: 40px 24px 60px;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.label {
+  margin-top: 26px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.title {
+  margin-top: 140px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+/* 상품명 (제목 위) — 있으면 제목 간격을 줄여 전체 위치는 그대로 */
+.product {
+  margin-top: 110px;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+}
+
+.product + .title {
+  margin-top: 14px;
+}
+
+/* 불러오는 중 · 불러오기 실패 문구 */
+.loadMessage {
+  margin-top: 160px;
+}
+
+.desc {
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 버튼 ---------- */
+.actions {
+  display: flex;
+  gap: 38px;
+  margin-top: 70px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 138px;
+  height: 50px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: #f3f4f3;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background: #e7e9e7;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.primary {
+  background: var(--color-primary-light);
+}
+
+.primary:hover:not(:disabled) {
+  background: #d6e9e0;
+}
+
+.error {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #e5484d;
+}
+
+/* ---------- 리뷰 링크 (카드 맨 아래) ---------- */
+.reviewLink {
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reviewLink:hover {
+  color: var(--color-primary);
+}
