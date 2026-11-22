@@ -7,7 +7,7 @@ import { getPopularProducts, getProducts } from "../../api/products";
 import styles from "./Home.module.css";
 
 // 배너 이미지
-const BANNER_IMAGE = "/img/banner.png";
+const BANNER_IMAGE = "src/assets/img/banner.png";
 
 // 응답이 배열이든 { products: [...] } / { items: [...] } 든 배열로 맞추기
 const toList = (data) =>
