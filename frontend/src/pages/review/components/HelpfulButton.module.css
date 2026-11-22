@@ -1,0 +1,54 @@
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-light);
+  font: inherit;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background: #d6e9e0;
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* 내가 누른 상태 */
+.active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.count {
+  margin-left: 4px;
+}
+
+.md {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.md img {
+  width: 16px;
+  height: 16px;
+}
+
+.lg {
+  height: 42px;
+  padding: 0 22px;
+  font-size: 16px;
+}
+
+.lg img {
+  width: 20px;
+  height: 20px;
+}

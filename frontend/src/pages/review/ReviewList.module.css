@@ -1,0 +1,119 @@
+/* 리뷰 목록 (원본: review-list.css) */
+
+.page {
+  padding-bottom: 50px;
+  color: var(--color-text-primary);
+}
+
+.title {
+  margin-left: 40px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.title span {
+  color: #2e7d5b;
+}
+
+/* ---------- 포토 리뷰 ---------- */
+.photos {
+  margin-top: 50px;
+}
+
+.photosTitle {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.photosTitle span {
+  margin-left: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.photoList {
+  display: flex;
+  gap: 30px;
+  margin-top: 12px;
+}
+
+.photoList a,
+.more {
+  display: block;
+  width: 114px;
+  height: 114px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.photoList img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color-border-default);
+  transition: transform 0.3s;
+}
+
+.photoList a:hover img {
+  transform: scale(1.05);
+}
+
+/* 마지막 칸: + 남은 개수 */
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(190, 190, 190, 0.8);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---------- 정렬 ---------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 26px;
+  padding: 14px 24px 14px 32px;
+  border-bottom: 1px solid var(--color-text-primary);
+}
+
+.sorts {
+  display: flex;
+  gap: 30px;
+}
+
+.sorts button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.sorts button:hover,
+.sorts button.active {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* ---------- 목록 ---------- */
+/* 다음 페이지를 불러오는 동안 살짝 흐리게 */
+.loading {
+  opacity: 0.5;
+}
+
+.empty {
+  padding: 80px 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+}
+
+.pagination {
+  margin-top: 40px;
+}
