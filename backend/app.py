@@ -11,6 +11,7 @@ from routes.reviews import reviews_bp
 from routes.schedules import schedules_bp
 from routes.cart_items import cart_items_bp
 from routes.orders import orders_bp
+from routes.badges import badges_bp
 from utils.exceptions import AppError
 from utils.response import error
 
@@ -41,13 +42,14 @@ app.register_blueprint(reviews_bp)
 app.register_blueprint(schedules_bp)
 app.register_blueprint(cart_items_bp)
 app.register_blueprint(orders_bp)
+app.register_blueprint(badges_bp)
 
 
 
 # service에서 던진 AppError를 공통 에러 응답으로 변환
 @app.errorhandler(AppError)
 def handle_app_error(e):
-    return error(e.status, e.code, e.message)
+    return error(e.status, e.code, e.message, e.details)
 
 
 if __name__ == "__main__":
