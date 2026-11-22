@@ -21,6 +21,26 @@ def list_products():
     return jsonify(success=True, data=data), 200
 
 
+@products_bp.route("/popular", methods=["GET"])
+def popular_products():
+    data = product_service.list_popular_products(get_current_uid(), request.args)
+    return jsonify(success=True, data=data), 200
+
+
+@products_bp.route("/<pid>/likes", methods=["POST"])
+@login_required
+def like_product(pid):
+    product_service.like_product(get_current_uid(), pid)
+    return jsonify(success=True, data=None), 200
+
+
+@products_bp.route("/<pid>/likes", methods=["DELETE"])
+@login_required
+def unlike_product(pid):
+    product_service.unlike_product(get_current_uid(), pid)
+    return jsonify(success=True, data=None), 200
+
+
 @products_bp.route("/<pid>", methods=["GET"])
 def get_product(pid):
     data = product_service.get_product(get_current_uid(), pid)
