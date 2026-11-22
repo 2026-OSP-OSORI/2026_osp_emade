@@ -27,11 +27,15 @@ export default function AuthProvider({ children }) {
   }, []);
 
   // 서버에 로그인 상태를 다시 물어보기 (로그인 성공 후 호출)
+  // 로그인 상태면 true 를 돌려줍니다. (쿠키가 저장되지 않은 경우 등을 로그인 화면에서 알아차리기 위해)
   const refresh = async () => {
     try {
-      setUid(toUid(await getMe()));
+      const nextUid = toUid(await getMe());
+      setUid(nextUid);
+      return Boolean(nextUid);
     } catch {
       setUid(null);
+      return false;
     }
   };
 
