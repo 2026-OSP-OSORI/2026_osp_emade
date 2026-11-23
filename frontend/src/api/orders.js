@@ -10,3 +10,7 @@ export const completeTrade = (oid) => api.patch(`/orders/${oid}/complete`);
 
 // 거래 취소 (거래 내역 확인서)
 export const cancelTrade = (oid) => api.patch(`/orders/${oid}/cancel`);
+
+// 거래 예약 (바로 구매는 items 1개, 장바구니는 여러 개 — 하나라도 안 되면 전부 실패)
+//   items: [{ pid, tradeKey, locationId, quantity, cartKey? }]  → [{ oid, status, tradeStartAt }]
+export const createOrders = (items) => api.post("/orders", { items });

@@ -1,0 +1,221 @@
+/* 판매자별 전체 상품 목록 (원본: seller-products.css) */
+
+.page {
+  padding-bottom: 80px;
+  color: var(--color-text-primary);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 120px 0;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.empty a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* ---------- 상단: 프로필 + TOP3 ---------- */
+.hero {
+  display: flex;
+  align-items: flex-start;
+  min-height: 300px;
+  padding: 40px 0 0 57px;
+  background: #f9f9f9;
+}
+
+.profile {
+  flex-shrink: 0;
+  width: 325px;
+  min-height: 182px;
+  padding-right: 34px;
+  margin-top: 15px;
+  border-right: 2px solid var(--color-border-default);
+}
+
+.profileTop {
+  display: flex;
+  gap: 29px;
+  margin-top: -15px;
+}
+
+.profileImg {
+  width: 112px;
+  height: 112px;
+  border-radius: var(--radius-full);
+  background: var(--color-border-default);
+  object-fit: cover;
+}
+
+.name {
+  margin: 21px 0 15px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.followBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 108px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  font-family: inherit;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.followBtn img {
+  width: 16px;
+  height: 16px;
+}
+
+/* 팔로우 완료 (Figma: 판매자별 전체상품목록 - 팔로우 완료 시) */
+.following {
+  background: #b3b3b3;
+  color: #fff;
+}
+
+.stats {
+  display: flex;
+  margin-top: 40px;
+  margin-left: 10px;
+}
+
+.stats li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 21px;
+}
+
+.stats li:first-child {
+  padding-left: 0;
+}
+
+.stats li + li {
+  border-left: 2px solid #b3b3b3;
+}
+
+.stats strong {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.stats span {
+  font-size: 16px;
+}
+
+/* TOP3 */
+.best {
+  display: flex;
+  gap: 53px;
+  margin-left: 85px;
+  padding-top: 11px;
+}
+
+.bestItem {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: no-repeat center / contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.first {
+  top: -26px;
+  left: -29px;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  background-image: url("../../assets/svg/badge-1st.svg");
+}
+
+.second {
+  top: -18px;
+  left: -21px;
+  background-image: url("../../assets/svg/badge-2nd.svg");
+}
+
+.third {
+  top: -18px;
+  left: -14px;
+  background-image: url("../../assets/svg/badge-3rd.svg");
+}
+
+/* Card(card2) 를 피그마 값에 맞춤 */
+.best article,
+.grid > article {
+  --card-pad: 8px;
+  --thumb-height: 114px;
+  border-radius: var(--radius-md);
+}
+
+/* ---------- 전체 상품 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 180px);
+  column-gap: 48px;
+  row-gap: 64px;
+  margin: 44px 0 0 30px;
+  transition: opacity 0.2s;
+}
+
+.loading {
+  opacity: 0.4;
+}
+
+.message {
+  padding: 60px 0;
+  font-size: 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.more {
+  display: block;
+  margin: 60px auto 0;
+  height: 40px;
+  padding: 0 28px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-default);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.more:hover:not(:disabled) {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}

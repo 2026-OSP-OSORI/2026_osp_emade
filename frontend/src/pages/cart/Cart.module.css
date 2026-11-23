@@ -1,0 +1,468 @@
+/* 장바구니 (원본: cart.css)
+   Layout 본문 폭에 맞춰 왼쪽 여백(205px → 80px)만 줄였어요. */
+
+.page {
+  padding-bottom: 40px;
+  color: #1a1a1a;
+}
+
+.loading {
+  padding: 120px 0;
+  font-size: 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- 브레드크럼 ---------- */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.12px;
+  color: #777;
+}
+
+.breadcrumb a,
+.breadcrumb strong {
+  color: #777;
+}
+
+/* ---------- 2단 레이아웃 ---------- */
+.cart {
+  display: flex;
+  gap: 32px;
+  min-height: 600px;
+  margin: 10px 0 0 80px;
+  padding-left: 24px;
+  border-left: 2px solid #bdbdbd;
+}
+
+.main {
+  width: 620px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 300px;
+  margin-top: -20px;
+}
+
+.title {
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.title span {
+  font-size: 20px;
+  font-weight: 400;
+  color: #6b6b6b;
+}
+
+/* 전체 선택 / 선택 삭제 */
+.listHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.check input,
+.itemCheck input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #2e7d5b;
+  cursor: pointer;
+}
+
+.textBtn {
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.textBtn:hover:not(:disabled) {
+  background: var(--color-border-default);
+}
+
+.textBtn:disabled {
+  color: var(--color-text-tertiary);
+  cursor: default;
+}
+
+.lineBtn {
+  height: 32px;
+  padding: 0 16px;
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-default);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.self {
+  align-self: flex-start;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 0;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.empty a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ---------- 장바구니 상품 카드 ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-default);
+}
+
+.itemCheck {
+  display: flex;
+  align-items: center;
+  height: 96px;
+}
+
+.imgLink {
+  flex-shrink: 0;
+}
+
+.img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-md);
+  background: var(--color-border-default);
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.top > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.sub {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.delete {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.delete img {
+  width: 100%;
+  height: 100%;
+}
+
+/* 거래 일정 (장소 · 일시) */
+.schedule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 4px 4px 14px;
+  border-radius: var(--radius-md);
+  background: #f7f7f5;
+  font-size: 14px;
+}
+
+.place,
+.time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.place::before,
+.time::before {
+  content: "";
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  background: url("../../assets/svg/pin.svg") no-repeat center;
+}
+
+.time::before {
+  background-image: url("../../assets/svg/clock.svg");
+}
+
+.schedule .textBtn {
+  margin-left: auto;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price {
+  margin-left: auto;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 수량 선택 */
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bdbdbd;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.stepBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.stepBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.num {
+  width: 32px;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* 상태: 시간 겹침 */
+.conflict {
+  border-color: #d64545;
+}
+
+.conflict .schedule {
+  background: #fcf0f0;
+  color: #d64545;
+}
+
+.conflict .place::before {
+  background-image: url("../../assets/svg/pin-error.svg");
+}
+
+.conflict .time::before {
+  background-image: url("../../assets/svg/clock-error.svg");
+}
+
+.warning {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #d64545;
+}
+
+.warning::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: url("../../assets/svg/alert.svg") no-repeat center;
+}
+
+/* 상태: 마감 · 품절 등 (주문 불가) */
+.closed .img {
+  opacity: 0.4;
+}
+
+.closed .name {
+  font-weight: 700;
+  color: #a8a8a8;
+}
+
+.closed .sub {
+  color: #a8a8a8;
+}
+
+.closedTag {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ffe6d0;
+  font-size: 12px;
+  line-height: 22px;
+  color: var(--color-text-primary);
+}
+
+.closed .itemCheck input {
+  accent-color: #c6c6c6;
+  cursor: not-allowed;
+}
+
+/* ---------- 오른쪽 ---------- */
+.select {
+  width: 220px;
+  height: 48px;
+  padding: 0 44px 0 16px;
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-default) url("../../assets/svg/chevron-down.svg") no-repeat right 16px center;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.summary {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 300px;
+  margin-top: 75px;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-lg);
+}
+
+.summaryTitle {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 14px;
+}
+
+.summaryList .isError {
+  color: #d64545;
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.muted {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.priceRow strong {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.reserve {
+  height: 48px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  font-family: inherit;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.reserve:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.reserve:disabled {
+  background: var(--color-border-default);
+  color: var(--color-text-primary);
+  cursor: not-allowed;
+}
+
+.summaryError {
+  font-size: 14px;
+  text-align: center;
+  color: #d64545;
+}
