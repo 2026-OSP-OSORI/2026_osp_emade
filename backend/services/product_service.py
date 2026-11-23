@@ -8,6 +8,7 @@ from firebase_admin import db
 
 from services.order_service import fail_overdue_for_seller
 from services.product_rules import ENDED, ON_SALE, TEMP_SOLD_OUT, delete_updates, status_after_stock
+from services.schedule_service import get_weekly, has_schedule
 from services.trade_errors import is_valid_key, trade_error
 from utils.exceptions import AppError
 from utils.locks import order_lock
@@ -220,6 +221,8 @@ def create_product(uid, form, files):
     seller = db.reference(f"users/{uid}").get()
     if not seller:
         raise AppError(404, "USER_NOT_FOUND", "*존재하지 않는 사용자입니다.")
+    if not has_schedule(get_weekly(uid)):
+        raise trade_error("SCHEDULE_NOT_FOUND")
 
     pid = _new_push_id()
     images = []
