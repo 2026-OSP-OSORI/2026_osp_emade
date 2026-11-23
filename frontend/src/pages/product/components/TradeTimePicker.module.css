@@ -1,0 +1,245 @@
+/* 거래 시간 팝오버 (원본: product-detail.css 의 .time-popover, .calendar__*, .time-slot) */
+
+.popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 510px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-default);
+  filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.1));
+  cursor: default;
+}
+
+/* 모달 안에 그대로 넣을 때 */
+.inline {
+  position: static;
+  width: auto;
+  padding: 0;
+  border: 0;
+  filter: none;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.month {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.month strong,
+.head strong {
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.prev {
+  transform: rotate(180deg);
+}
+
+.nav img {
+  width: 20px;
+  height: 20px;
+}
+
+.week,
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 56px);
+  column-gap: 12px;
+}
+
+.week {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  color: #6b6b6b;
+}
+
+.sun {
+  color: #d64545;
+}
+
+.sat {
+  color: #3b82c4;
+}
+
+.days {
+  row-gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.loading {
+  opacity: 0.4;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: #a8a8a8;
+}
+
+.available {
+  background: #eaf3fb;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.selected {
+  background: var(--color-primary);
+  font-weight: 700;
+  color: #fff;
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #6b6b6b;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendItem::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #eaf3fb;
+}
+
+.legendSelected::before {
+  background: var(--color-primary);
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: #e0e0e0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.head span,
+.hint {
+  font-size: 12px;
+  color: #6b6b6b;
+}
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(6, 70px);
+  gap: 8px 9px;
+  max-height: 184px;
+  overflow-y: auto;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border: 1px solid #bdbdbd;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-default);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.slotSelected {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  font-weight: 600;
+  color: #fff;
+}
+
+.closed {
+  border-color: #e0e0e0;
+  background: #f7f7f5;
+  font-weight: 400;
+  color: #a8a8a8;
+  text-decoration: line-through;
+  cursor: default;
+}
+
+.error {
+  font-size: 12px;
+  color: #d64545;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.done {
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.done:disabled {
+  background: var(--color-border-default);
+  color: var(--color-text-tertiary);
+  cursor: default;
+}

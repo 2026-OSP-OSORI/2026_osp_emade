@@ -4,6 +4,7 @@ import threading
 from services.ranking_service import get_seller_rank
 from services.follow_service import is_following
 from utils.time_utils import now_ms
+from utils.image_upload import upload_image
 
 from firebase_admin import db
 
@@ -194,3 +195,23 @@ def get_seller_profile(my_uid, target_uid):
         "isFollowing": is_following(my_uid, target_uid),
         "isMe": my_uid == target_uid,
     }
+    
+
+# 프로필 사진 변경 (images/profiles/{uid}/ 에 저장 후 URL 저장 + 상품 카드 복사본 갱신)
+def change_profile_image(uid, file):
+    if file is None or not file.filename:
+        raise AppError(400, "MISSING_REQUIRED_FIELD", "*필수 항목을 입력하세요.")
+    
+    if not file.mimetype or not file.mimetype.startswith("image/"):
+        raise AppError(400, "INVALID_IMAGE_FILE", "*올바른 이미지 파일을 등록해주세요.")
+
+    url = upload_image(file, f"profiles/{uid}")
+
+    updates = {f"users/{uid}/profileImage": url}
+
+    # 복사본 갱신 (내 상품 카드의 판매자 사진)
+    for pid in db.reference(f"userProducts/{uid}").get() or {}:
+        updates[f"products/{pid}/sellerImage"] = url
+
+    db.reference().update(updates)   # multi-path update
+    return url
