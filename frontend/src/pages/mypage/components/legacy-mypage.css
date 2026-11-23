@@ -1,0 +1,1998 @@
+.legacy-mypage .crumb{
+  width: min(1280px, calc(100% - 64px));
+  margin: 26px auto 22px;
+  color: #92979d;
+  font-size: 12px;
+}
+.legacy-mypage .page{
+  width: min(1280px, calc(100% - 64px));
+  margin: 0 auto 58px;
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 38px;
+  min-height: 690px;
+}
+.legacy-mypage .side{
+  border-right: 1px solid #c9cdd1;
+  padding: 12px 26px 30px 0;
+  min-height: 660px;
+}
+.legacy-mypage .side h2{
+  font-size: 22px;
+  margin: 0 0 24px;
+  color: #171d25;
+}
+.legacy-mypage .side nav{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.legacy-mypage .side a{
+  display: block;
+  color: #777f87;
+  font-size: 15px;
+  padding: 10px 10px;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+}
+.legacy-mypage .side a.active{
+  font-weight: 700;
+  color: #171d25;
+  border-left-color: var(--green);
+}
+.legacy-mypage .main{
+  padding: 10px 0 48px;
+  min-width: 0;
+}
+.legacy-mypage .title{
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.7px;
+}
+.legacy-mypage .title small{
+  font-size: 17px;
+  font-weight: 400;
+  color: #7d838a;
+  margin-left: 14px;
+}
+.legacy-mypage .muted{
+  color: var(--muted);
+}
+.legacy-mypage .sectionhead{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+.legacy-mypage .sectionhead h2{
+  font-size: 19px;
+  margin: 0;
+}
+.legacy-mypage .sectionhead small{
+  font-weight: 400;
+  color: #777;
+  margin-left: 12px;
+}
+.legacy-mypage .sort{
+  width: 210px;
+  height: 46px;
+  border: 1px solid #dfe2e6;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 16px;
+  color: #303944;
+  appearance: auto;
+}
+.legacy-mypage .btn-green{
+  background: var(--green);
+  color: #fff;
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  padding: 11px 24px;
+  min-height: 42px;
+}
+.legacy-mypage .btn-gray{
+  background: #fff;
+  border: 1px solid #d9dde2;
+  border-radius: 4px;
+  padding: 8px 18px;
+  color: #303944;
+  min-height: 34px;
+}
+.legacy-mypage .filters{
+  border-bottom: 1px solid #dfe2e6;
+  padding: 12px 0 14px;
+  margin-bottom: 18px;
+  color: #555d65;
+  font-size: 15px;
+}
+.legacy-mypage .filters::first-letter{
+  color: var(--green);
+}
+.legacy-mypage .grid4{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+.legacy-mypage .prod{
+  position: relative;
+  min-width: 0;
+  border: 2px solid #e1e4e8;
+  border-radius: 9px;
+  padding: 8px 8px 14px;
+  background: #fff;
+  min-height: 268px;
+}
+.legacy-mypage .prod img, .legacy-mypage .placeholder img{
+  display: block;
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.legacy-mypage .prod b, .legacy-mypage .prod strong, .legacy-mypage .prod small{
+  display: block;
+  font-size: 16px;
+}
+.legacy-mypage .prod b{
+  margin: 10px 5px 4px;
+  font-weight: 700;
+}
+.legacy-mypage .prod strong{
+  margin: 0 5px;
+  font-weight: 700;
+}
+.legacy-mypage .prod small{
+  font-size: 13px;
+  color: #454c55;
+  margin: 24px 5px 0;
+}
+.legacy-mypage .placeholder{
+  height: 110px;
+  margin-bottom: 8px;
+}
+.legacy-mypage .heart{
+  position: absolute;
+  right: 13px;
+  top: 9px;
+  color: var(--orange);
+  font-size: 31px;
+  line-height: 1;
+  text-shadow:
+    -1px -1px white,
+    1px 1px white;
+}
+.legacy-mypage .pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  margin: 58px 0 12px;
+  font-size: 14px;
+}
+.legacy-mypage .pagination .on{
+  background: #e7f0eb;
+  color: var(--green);
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+.legacy-mypage .pill{
+  display: inline-block;
+  border-radius: 14px;
+  padding: 5px 11px;
+  font-size: 12px;
+  background: #e8f2ed;
+  color: #28664e;
+}
+.legacy-mypage .pill.orange{
+  background: #fbe6d6;
+  color: #b86d37;
+}
+.legacy-mypage .pill.red{
+  background: #fde9e9;
+  color: #c05252;
+}
+.legacy-mypage .panel{
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+@media  (max-width: 1050px) {.legacy-mypage .page{
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 24px;
+  }
+.legacy-mypage .grid4{
+    gap: 16px;
+  }}
+@media  (max-width: 700px) {.legacy-mypage .crumb{
+    width: calc(100% - 32px);
+    margin: 18px auto;
+  }
+.legacy-mypage .page{
+    width: calc(100% - 32px);
+    display: block;
+  }
+.legacy-mypage .side{
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    min-height: 0;
+    padding: 0 0 12px;
+    margin-bottom: 20px;
+  }
+.legacy-mypage .side h2{
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+.legacy-mypage .side nav{
+    flex-direction: row;
+    overflow: auto;
+  }
+.legacy-mypage .side a{
+    white-space: nowrap;
+  }
+.legacy-mypage .main{
+    padding: 0 0 35px;
+  }
+.legacy-mypage .grid4{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+.legacy-mypage .title{
+    font-size: 23px;
+  }}
+.legacy-mypage .page{
+  padding: 0;
+}
+.legacy-mypage .page .side nav, .legacy-mypage .mypage-side-nav{
+  height: auto;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  font-size: inherit;
+  white-space: normal;
+}
+.legacy-mypage .page .side nav a{
+  display: block;
+}
+.legacy-mypage .page .main{
+  min-width: 0;
+}
+.legacy-mypage .profile{
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  background: #fff;
+  padding: 0 0 28px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid #d6d9dc;
+}
+.legacy-mypage .avatar{
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dfe8e8;
+}
+.legacy-mypage .avatar img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .profile b{
+  font-size: 18px;
+}
+.legacy-mypage .stats{
+  display: flex;
+  gap: 22px;
+  margin-top: 9px;
+}
+.legacy-mypage .stats span{
+  display: grid;
+  text-align: center;
+  border-right: 1px solid #d7dadd;
+  padding-right: 18px;
+}
+.legacy-mypage .stats strong{
+  font-size: 16px;
+}
+.legacy-mypage .stats small{
+  font-size: 11px;
+  color: #888;
+}
+.legacy-mypage .dashsec{
+  margin: 30px 0 38px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #d6d9dc;
+}
+.legacy-mypage .calmonth{
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.legacy-mypage .calmonth button, .legacy-mypage .calhead button{
+  background: #fff;
+  border: 1px solid #d9dde2;
+  border-radius: 5px;
+  padding: 7px 12px;
+}
+.legacy-mypage .calgrid{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.legacy-mypage .calgrid div{
+  height: 56px;
+  border: 1px solid #e2e5e8;
+  border-radius: 7px;
+  padding: 7px;
+  font-size: 12px;
+}
+.legacy-mypage .calgrid i, .legacy-mypage .calgrid em{
+  display: inline-block;
+  font-style: normal;
+  border-radius: 10px;
+  padding: 3px 5px;
+  background: #e7f1eb;
+  color: #527a67;
+  margin-top: 5px;
+  font-size: 10px;
+}
+.legacy-mypage .calgrid em{
+  background: #fbe9dc;
+  color: #b86d37;
+}
+.legacy-mypage .mini-products{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.legacy-mypage .mini-products article{
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e1e4e8;
+  border-radius: 7px;
+  padding: 7px;
+}
+.legacy-mypage .fakeimg{
+  height: 112px;
+  margin-bottom: 7px;
+}
+.legacy-mypage .fakeimg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.legacy-mypage .mini-products strong{
+  margin-top: 3px;
+}
+.legacy-mypage .mini-products small{
+  color: #888;
+  margin-top: 8px;
+}
+.legacy-mypage .filters{
+  border-bottom: 1px solid #ddd;
+  padding: 10px 4px 15px;
+  margin-bottom: 18px;
+  color: #555;
+}
+.legacy-mypage .filters a{
+  margin-right: 22px;
+}
+.legacy-mypage .prod{
+  position: relative;
+}
+.legacy-mypage .prod .placeholder{
+  height: 110px;
+}
+.legacy-mypage .prod .regstatus{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  color: #777;
+  font-size: 13px;
+}
+.legacy-mypage .regstatus button, .legacy-mypage .reviewedit button{
+  background: #fff;
+  border: 1px solid #dfe2e6;
+  padding: 7px 18px;
+  border-radius: 4px;
+  color: #303944;
+}
+.legacy-mypage .historyrow{
+  display: grid;
+  grid-template-columns: 76px minmax(200px, 1.5fr) minmax(150px, 1fr) 130px;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid #dedfe2;
+  border-radius: 11px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  min-height: 102px;
+}
+.legacy-mypage .thumb{
+  height: 66px;
+  width: 66px;
+  overflow: hidden;
+  border-radius: 7px;
+}
+.legacy-mypage .thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .hdesc{
+  display: grid;
+  gap: 5px;
+}
+.legacy-mypage .hdesc b{
+  font-size: 14px;
+}
+.legacy-mypage .hdesc small{
+  font-size: 12px;
+  color: #888;
+}
+.legacy-mypage .hdate{
+  font-size: 12px;
+  line-height: 2;
+}
+.legacy-mypage .hbuttons{
+  display: grid;
+  gap: 8px;
+  text-align: center;
+  font-size: 12px;
+}
+.legacy-mypage .hbuttons button{
+  font-size: 12px;
+}
+.legacy-mypage .reviewrow{
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 74px;
+  gap: 18px;
+  align-items: center;
+  border: 1px solid #dedfe2;
+  border-radius: 11px;
+  padding: 16px 18px;
+  margin: 10px 0;
+  min-height: 112px;
+}
+.legacy-mypage .reviewthumb{
+  height: 70px;
+  width: 70px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.legacy-mypage .reviewthumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .reviewbody{
+  display: grid;
+  gap: 5px;
+}
+.legacy-mypage .reviewbody small, .legacy-mypage .reviewbody time{
+  color: #888;
+  font-size: 12px;
+}
+.legacy-mypage .reviewbody b{
+  font-size: 14px;
+}
+.legacy-mypage .reviewbody p{
+  margin: 0;
+  font-size: 13px;
+}
+.legacy-mypage .reviewedit{
+  display: grid;
+  gap: 8px;
+  align-content: center;
+}
+.legacy-mypage .schedtitle{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+.legacy-mypage .schedtitle small{
+  color: #999;
+  font-size: 13px;
+}
+.legacy-mypage .calhead{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+.legacy-mypage .calendar{
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  position: relative;
+}
+.legacy-mypage .weekday{
+  text-align: center;
+  color: #777;
+  padding: 7px;
+}
+.legacy-mypage .calday{
+  height: 82px;
+  border: 1px solid #e1e3e5;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.legacy-mypage .calday.selected{
+  border: 2px solid var(--green);
+}
+.legacy-mypage .calday.nextmonth{
+  background: #f7f7f6;
+  color: #bbb;
+}
+.legacy-mypage .calday i, .legacy-mypage .calday em{
+  font-style: normal;
+  font-size: 11px;
+  background: #e8f2ed;
+  color: #46715b;
+  border-radius: 10px;
+  padding: 3px 6px;
+  width: max-content;
+}
+.legacy-mypage .calday em{
+  background: #fbe9dc;
+  color: #b86d37;
+}
+.legacy-mypage .tooltip{
+  position: absolute;
+  top: 170px;
+  left: 45%;
+  width: 310px;
+  background: white;
+  border-radius: 11px;
+  padding: 16px;
+  box-shadow: 0 5px 25px #0002;
+  font-size: 13px;
+  z-index: 2;
+}
+.legacy-mypage .tooltip p{
+  border-top: 1px solid #eee;
+  padding-top: 9px;
+  line-height: 1.9;
+}
+.legacy-mypage .tooltip small{
+  color: #888;
+}
+.legacy-mypage .statement-sub{
+  color: #888;
+  font-size: 13px;
+  margin: 10px 0 25px;
+}
+.legacy-mypage .receipt{
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  min-height: 300px;
+  padding: 45px;
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 24px;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.legacy-mypage .bagphoto{
+  width: 160px;
+  height: 165px;
+  background: #f0e5d7;
+  border-radius: 6px;
+}
+.legacy-mypage .receipttext h2{
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.legacy-mypage .receipttext p{
+  font-size: 13px;
+  margin: 8px 0;
+  color: #555;
+}
+.legacy-mypage .receipttext strong{
+  font-size: 16px;
+}
+.legacy-mypage .receipttext hr{
+  border: 0;
+  border-top: 1px solid #888;
+  margin: 12px 0;
+}
+.legacy-mypage .back{
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  font-size: 12px;
+}
+.legacy-mypage .statement .title{
+  margin-left: 0;
+}
+@media  (max-width: 850px) {.legacy-mypage .historyrow{
+    grid-template-columns: 64px 1fr 120px;
+  }
+.legacy-mypage .hdate{
+    grid-column: 2;
+  }
+.legacy-mypage .hbuttons{
+    grid-column: 3;
+    grid-row: 1/3;
+  }
+.legacy-mypage .receipt{
+    padding: 24px;
+  }
+.legacy-mypage .schedtitle{
+    display: block;
+  }
+.legacy-mypage .tooltip{
+    position: static;
+    width: auto;
+    margin-top: 15px;
+  }
+.legacy-mypage .mini-products{
+    grid-template-columns: repeat(2, 1fr);
+  }}
+@media  (max-width: 600px) {.legacy-mypage .historyrow{
+    grid-template-columns: 56px 1fr;
+  }
+.legacy-mypage .hdate, .legacy-mypage .hbuttons{
+    grid-column: 2;
+    grid-row: auto;
+  }
+.legacy-mypage .receipt{
+    grid-template-columns: 1fr;
+  }
+.legacy-mypage .calendar{
+    gap: 4px;
+  }
+.legacy-mypage .calday{
+    height: 64px;
+    padding: 5px;
+  }
+.legacy-mypage .reviewrow{
+    grid-template-columns: 55px 1fr;
+  }
+.legacy-mypage .reviewthumb{
+    width: 54px;
+    height: 54px;
+  }
+.legacy-mypage .reviewedit{
+    grid-column: 2;
+    display: flex;
+  }}
+.legacy-mypage .pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  background: #eef0f1;
+  color: #59616a;
+  border: 1px solid transparent;
+}
+.legacy-mypage .pill.purchase{
+  background: #e7f2ed;
+  color: #28664e;
+}
+.legacy-mypage .pill.sale{
+  background: #ffe8d8;
+  color: #b86d37;
+}
+.legacy-mypage .pill.state-planned{
+  background: #e8f2ed;
+  color: #28664e;
+}
+.legacy-mypage .pill.state-wait{
+  background: #fff4d8;
+  color: #a97813;
+}
+.legacy-mypage .pill.state-failed, .legacy-mypage .pill.state-cancel{
+  background: #fde9e9;
+  color: #c05252;
+}
+.legacy-mypage .pill.state-done{
+  background: #f0f1f2;
+  color: #737a82;
+}
+.legacy-mypage .pill.state-selling{
+  background: #e8f2ed;
+  color: #28664e;
+}
+.legacy-mypage .btn-green, .legacy-mypage .btn-gray, .legacy-mypage .hbuttons button, .legacy-mypage .regstatus button, .legacy-mypage .month-arrow, .legacy-mypage .today-button{
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.legacy-mypage .btn-green{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 98px;
+  min-height: 38px;
+  padding: 8px 18px;
+  border: 1px solid #07563c;
+  border-radius: 5px;
+  background: #07563c;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.legacy-mypage .btn-green:hover{
+  background: #06452f;
+  box-shadow: 0 2px 7px #07563c25;
+}
+.legacy-mypage .btn-gray{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 98px;
+  min-height: 34px;
+  padding: 7px 14px;
+  border: 1px solid #d8dde1;
+  border-radius: 5px;
+  background: #fff;
+  color: #28333d;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.legacy-mypage .btn-gray:hover{
+  border-color: #07563c;
+  color: #07563c;
+  background: #f8fbf9;
+}
+.legacy-mypage .detail-link{
+  display: inline-block;
+  color: #27313c;
+  font-size: 12px;
+  padding: 4px 2px;
+  text-align: center;
+}
+.legacy-mypage .detail-link:hover{
+  color: #07563c;
+  text-decoration: underline;
+}
+.legacy-mypage .historyrow{
+  border: 1px solid #dfe2e6;
+  border-radius: 11px;
+  background: #fff;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.legacy-mypage .historyrow:hover{
+  border-color: #cbd6d0;
+  box-shadow: 0 3px 12px #172b2010;
+}
+.legacy-mypage .hbuttons{
+  justify-items: stretch;
+  min-width: 112px;
+}
+.legacy-mypage .hbuttons button{
+  width: 100%;
+}
+.legacy-mypage .regstatus{
+  gap: 10px;
+}
+.legacy-mypage .regstatus button{
+  min-width: 66px;
+}
+.legacy-mypage .calendar-toolbar{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 22px;
+}
+.legacy-mypage .calendar-month-control{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.legacy-mypage .calendar-month-control strong{
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  min-width: 112px;
+  text-align: center;
+}
+.legacy-mypage .month-arrow{
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d9dde2;
+  border-radius: 8px;
+  background: #fff;
+  color: #202b3a;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0;
+  font-weight: 500;
+}
+.legacy-mypage .month-arrow:hover{
+  border-color: #07563c;
+  color: #07563c;
+  background: #f7fbf8;
+}
+.legacy-mypage .today-button{
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #d9dde2;
+  border-radius: 8px;
+  background: #fff;
+  color: #303944;
+  font-size: 13px;
+  font-weight: 500;
+}
+.legacy-mypage .today-button:hover{
+  border-color: #07563c;
+  color: #07563c;
+  background: #f7fbf8;
+}
+.legacy-mypage .calhead{
+  display: none;
+}
+.legacy-mypage .calendar{
+  gap: 10px 24px;
+}
+.legacy-mypage .weekday{
+  padding: 0 0 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #26313e;
+}
+.legacy-mypage .weekday:first-child{
+  color: #d93442;
+}
+.legacy-mypage .weekday:last-of-type{
+  color: #3479c8;
+}
+.legacy-mypage .calday{
+  height: 83px;
+  border: 1px solid #dedfe2;
+  border-radius: 9px;
+  padding: 8px 9px;
+  gap: 5px;
+  background: #fff;
+  overflow: hidden;
+}
+.legacy-mypage .calday b{
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.legacy-mypage .calday.selected{
+  border: 2px solid #07563c;
+  padding: 7px 8px;
+  box-shadow: 0 0 0 1px #07563c08;
+}
+.legacy-mypage .date-alert{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #d52c3b;
+  font-size: 14px;
+  font-weight: 800;
+  margin-left: 2px;
+}
+.legacy-mypage .day-tags{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px;
+  max-width: 100%;
+}
+.legacy-mypage .calday i, .legacy-mypage .calday em{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 19px;
+  font-size: 10px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 2px 7px;
+  margin: 0;
+  white-space: nowrap;
+  background: #e7f2ed;
+  color: #28664e;
+}
+.legacy-mypage .calday em{
+  background: #ffe8d8;
+  color: #b86d37;
+}
+.legacy-mypage .calday.nextmonth{
+  background: #f7f7f6;
+  color: #9a9a9a;
+  border-color: #e2e2e2;
+}
+.legacy-mypage .calday.nextmonth i, .legacy-mypage .calday.nextmonth em{
+  opacity: 0.58;
+}
+.legacy-mypage .tooltip{
+  top: 170px;
+  left: 45%;
+  width: 306px;
+  padding: 13px 14px 12px;
+  border: 1px solid #edf0f2;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px #172b2020;
+  background: #fff;
+}
+.legacy-mypage .tooltip-heading{
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 5px 11px;
+  border-bottom: 1px solid #eceff1;
+  margin-bottom: 10px;
+  color: #202b3a;
+}
+.legacy-mypage .tooltip-item{
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 11px;
+  padding: 3px 0 10px;
+  align-items: center;
+}
+.legacy-mypage .tooltip-item + .tooltip-item{
+  border-top: 1px solid #edf0f2;
+  padding-top: 10px;
+  padding-bottom: 2px;
+}
+.legacy-mypage .tooltip-icon{
+  width: 50px;
+  height: 50px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-weight: 700;
+}
+.legacy-mypage .purchase-icon{
+  background: #e8f2ed;
+  color: #26734f;
+}
+.legacy-mypage .sale-icon{
+  background: #fff4dc;
+  color: #c78316;
+}
+.legacy-mypage .tooltip-detail{
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.legacy-mypage .tooltip-tags{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.legacy-mypage .tooltip-tags .pill{
+  min-height: 20px;
+  padding: 2px 8px;
+  font-size: 10px;
+  border-radius: 10px;
+}
+.legacy-mypage .tooltip-tags .state-planned{
+  margin-left: auto;
+  background: #f1f2f3;
+  color: #737a82;
+}
+.legacy-mypage .tooltip-detail b{
+  font-size: 13px;
+  font-weight: 700;
+}
+.legacy-mypage .tooltip-detail small{
+  font-size: 11px;
+  color: #777e85;
+  white-space: nowrap;
+}
+@media  (max-width: 850px) {.legacy-mypage .calendar{
+    gap: 7px;
+  }
+.legacy-mypage .calday{
+    height: 72px;
+  }
+.legacy-mypage .tooltip{
+    position: static;
+    width: 100%;
+    margin-top: 18px;
+  }
+.legacy-mypage .calendar-month-control strong{
+    min-width: auto;
+  }}
+@media  (max-width: 600px) {.legacy-mypage .calendar-toolbar{
+    gap: 8px;
+  }
+.legacy-mypage .calendar-month-control{
+    gap: 7px;
+  }
+.legacy-mypage .calendar-month-control strong{
+    font-size: 16px;
+  }
+.legacy-mypage .month-arrow, .legacy-mypage .today-button{
+    height: 32px;
+  }
+.legacy-mypage .month-arrow{
+    width: 32px;
+  }
+.legacy-mypage .calday{
+    height: 64px;
+  }
+.legacy-mypage .calday i, .legacy-mypage .calday em{
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+.legacy-mypage .hbuttons{
+    min-width: 0;
+  }}
+.legacy-mypage .reviewthumb.image-slot{
+  width: 88px;
+  height: 88px;
+  aspect-ratio: 1/1;
+  background: #f3f4f2;
+  border: 1px solid #e5e7e5;
+  border-radius: 8px;
+  overflow: hidden;
+  flex: none;
+}
+.legacy-mypage .reviewthumb.image-slot img, .legacy-mypage .bagphoto.image-slot img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.legacy-mypage .receipt{
+  grid-template-columns: 180px minmax(0, 1fr);
+}
+.legacy-mypage .bagphoto.image-slot{
+  width: 180px;
+  height: 190px;
+  aspect-ratio: 1/1;
+  background: #f3f4f2;
+  border: 1px solid #e5e7e5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.legacy-mypage .state-preview-links{
+  max-width: 800px;
+  margin: 20px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #66706b;
+}
+.legacy-mypage .state-preview-links a{
+  padding: 7px 10px;
+  border: 1px solid #dfe4e0;
+  border-radius: 5px;
+  background: #fff;
+}
+.legacy-mypage .state-preview-links a:hover{
+  border-color: #07563c;
+  color: #07563c;
+}
+.legacy-mypage .calendar-toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 22px;
+}
+.legacy-mypage .calendar-month-control{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.legacy-mypage .month-arrow{
+  font-size: 18px;
+  font-weight: 600;
+}
+@media  (max-width: 600px) {.legacy-mypage .receipt{
+    grid-template-columns: 1fr;
+  }
+.legacy-mypage .bagphoto.image-slot{
+    width: 100%;
+    max-width: 220px;
+    height: 220px;
+  }
+.legacy-mypage .reviewthumb.image-slot{
+    width: 64px;
+    height: 64px;
+  }}
+.legacy-mypage .card__thumb{
+  overflow: hidden;
+}
+.legacy-mypage .card__thumb img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .reviewthumb{
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.legacy-mypage .reviewthumb img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .bagphoto{
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.legacy-mypage .bagphoto img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.legacy-mypage .state-preview-links a[aria-current="page"]{
+  font-weight: 700;
+  text-decoration: underline;
+}
+.legacy-mypage .receipt{
+  grid-template-columns: 180px minmax(0, 1fr);
+  column-gap: 28px;
+  align-items: start;
+  min-height: 310px;
+}
+.legacy-mypage .receipt .bagphoto, .legacy-mypage .receipt .bagphoto.image-slot{
+  width: 180px;
+  height: 180px;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f5f5f3;
+  border: 1px solid #e4e6e5;
+}
+.legacy-mypage .receipt .bagphoto img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+.legacy-mypage .receipttext{
+  min-width: 0;
+}
+.legacy-mypage .receipttext p{
+  line-height: 1.6;
+}
+.legacy-mypage .calendar-toolbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  margin-bottom: 18px;
+}
+.legacy-mypage .calendar-month-control{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.legacy-mypage .calendar-month-control strong{
+  min-width: 132px;
+  text-align: center;
+  font-size: 19px;
+  line-height: 36px;
+}
+.legacy-mypage .month-arrow, .legacy-mypage .today-button{
+  height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #d9dde2;
+  border-radius: 7px;
+  background: #fff;
+  color: #303944;
+}
+.legacy-mypage .month-arrow{
+  width: 36px;
+  min-width: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.legacy-mypage .month-arrow img{
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.legacy-mypage .month-arrow .chevron-prev{
+  transform: rotate(180deg);
+}
+.legacy-mypage .today-button{
+  min-width: 62px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.legacy-mypage .calendar{
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 10px;
+}
+.legacy-mypage .weekday{
+  min-width: 0;
+  line-height: 20px;
+  text-align: center;
+}
+.legacy-mypage .calday{
+  min-width: 0;
+  box-sizing: border-box;
+  height: 92px;
+  padding: 9px 8px;
+  overflow: hidden;
+}
+.legacy-mypage .calday.selected{
+  padding: 8px 7px;
+}
+.legacy-mypage .day-tags{
+  min-width: 0;
+  gap: 3px;
+}
+.legacy-mypage .calday i, .legacy-mypage .calday em{
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.legacy-mypage .btn-green, .legacy-mypage .btn-gray, .legacy-mypage .hbuttons button, .legacy-mypage .regstatus button, .legacy-mypage .reviewedit button{
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 6px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.legacy-mypage .btn-green{
+  min-height: 40px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.legacy-mypage .btn-gray, .legacy-mypage .hbuttons button, .legacy-mypage .regstatus button, .legacy-mypage .reviewedit button{
+  min-height: 36px;
+  padding: 7px 12px;
+  font-size: 12px;
+}
+.legacy-mypage .hbuttons{
+  gap: 8px;
+}
+.legacy-mypage .hbuttons button{
+  width: 100%;
+}
+.legacy-mypage button:focus-visible, .legacy-mypage a:focus-visible{
+  outline: 2px solid #07563c;
+  outline-offset: 2px;
+}
+@media  (max-width: 850px) {.legacy-mypage .calendar{
+    column-gap: 6px;
+    row-gap: 7px;
+  }
+.legacy-mypage .calday{
+    height: 82px;
+    padding: 6px;
+  }
+.legacy-mypage .calday.selected{
+    padding: 5px;
+  }}
+@media  (max-width: 600px) {.legacy-mypage .receipt{
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px;
+  }
+.legacy-mypage .receipt .bagphoto, .legacy-mypage .receipt .bagphoto.image-slot{
+    width: 180px;
+    height: 180px;
+  }
+.legacy-mypage .calendar-month-control{
+    gap: 5px;
+  }
+.legacy-mypage .calendar-month-control strong{
+    font-size: 15px;
+    min-width: 112px;
+  }
+.legacy-mypage .month-arrow{
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+  }
+.legacy-mypage .today-button{
+    height: 32px;
+    min-width: 54px;
+    padding: 0 9px;
+  }
+.legacy-mypage .calendar{
+    column-gap: 3px;
+    row-gap: 5px;
+  }
+.legacy-mypage .calday{
+    height: 70px;
+    padding: 4px;
+  }
+.legacy-mypage .calday.selected{
+    padding: 3px;
+  }
+.legacy-mypage .calday i, .legacy-mypage .calday em{
+    font-size: 9px;
+    padding: 2px 4px;
+  }}
+.legacy-mypage .dashboard-history-list{
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+.legacy-mypage .dashboard-history-list .historyrow{
+  margin: 0;
+  grid-template-columns: 78px minmax(170px, 1fr) minmax(130px, 0.7fr) 135px;
+  align-items: center;
+  gap: 14px;
+}
+.legacy-mypage .dashboard-history-list .historyrow .thumb{
+  width: 78px;
+  height: 78px;
+}
+.legacy-mypage .dashboard-history-list .historyrow .thumb img, .legacy-mypage .historyrow .thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.legacy-mypage .dashboard-review-cards{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+.legacy-mypage .dashboard-review-card{
+  border: 1px solid #e5e9e7;
+  border-radius: 8px;
+  padding: 14px;
+  min-width: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.legacy-mypage .dashboard-review-product{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+.legacy-mypage .dashboard-review-product img{
+  width: 68px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 5px;
+  flex: none;
+}
+.legacy-mypage .dashboard-review-product > div{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.legacy-mypage .dashboard-review-product b{
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.legacy-mypage .dashboard-review-product span{
+  font-weight: 600;
+  font-size: 12px;
+}
+.legacy-mypage .dashboard-review-product small{
+  font-size: 11px;
+  color: #77817b;
+}
+.legacy-mypage .dashboard-review-stars{
+  color: #e89c4b;
+  letter-spacing: 2px;
+  font-size: 15px;
+}
+.legacy-mypage .dashboard-review-card h3{
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+.legacy-mypage .dashboard-review-card p{
+  font-size: 12px;
+  line-height: 1.55;
+  color: #4b5550;
+  min-height: 55px;
+  margin: 0;
+}
+.legacy-mypage .dashboard-review-card > a{
+  margin-top: auto;
+  display: block;
+  border-top: 1px solid #edf0ee;
+  padding-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #43564c;
+}
+.legacy-mypage .calmini .mini-weekday{
+  text-align: center;
+  font-size: 12px;
+  color: #7d8680;
+  background: #fff;
+  padding: 6px 0;
+}
+.legacy-mypage .calendar .calday{
+  position: relative;
+}
+.legacy-mypage .calendar .calday.selected{
+  z-index: 5;
+}
+.legacy-mypage .calendar .calday .tooltip{
+  display: none;
+  position: absolute;
+  z-index: 30;
+  left: calc(100% + 8px);
+  top: -12px;
+  width: 300px;
+  max-width: 80vw;
+  background: #fff;
+  box-shadow: 0 8px 24px #1b332220;
+  border: 1px solid #dfe5e0;
+  border-radius: 8px;
+  padding: 14px;
+}
+.legacy-mypage .calendar .calday.selected:hover .tooltip, .legacy-mypage .calendar .calday.selected:focus-within .tooltip{
+  display: block;
+}
+.legacy-mypage .calendar .calday .day-tags a{
+  display: inline-block;
+  text-decoration: none;
+  font-size: inherit;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: #dceee5;
+  color: #234c3a;
+}
+.legacy-mypage .date-exception{
+  margin: 26px 0 0;
+  border: 1px solid #e0e6e2;
+  border-radius: 8px;
+  background: #fff;
+  max-width: 760px;
+}
+.legacy-mypage .date-exception summary{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  font-weight: 700;
+  color: #294739;
+}
+.legacy-mypage .date-exception summary span{
+  font-size: 12px;
+  color: #64766c;
+  font-weight: 400;
+}
+.legacy-mypage .exception-body{
+  padding: 16px 20px 20px;
+  border-top: 1px solid #e8edea;
+}
+.legacy-mypage .exception-body p{
+  font-size: 13px;
+  color: #66776d;
+  margin: 0 0 14px;
+}
+.legacy-mypage .exception-no-trade{
+  display: block;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.legacy-mypage .exception-legend{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #718078;
+  margin-bottom: 14px;
+}
+.legacy-mypage .exception-body h3{
+  font-size: 14px;
+  margin: 16px 0 8px;
+}
+.legacy-mypage .exception-times{
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.legacy-mypage .exception-times label{
+  border: 1px solid #dfe6e0;
+  border-radius: 4px;
+  padding: 7px 3px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+.legacy-mypage .exception-times input{
+  accent-color: #145a3d;
+}
+.legacy-mypage .exception-actions{
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.legacy-mypage .exception-actions button{
+  padding: 8px 18px;
+  border-radius: 4px;
+  border: 1px solid #d7e0da;
+}
+.legacy-mypage .static-confirm{
+  margin-right: 8px;
+}
+@media  (max-width: 900px) {.legacy-mypage .dashboard-review-cards{
+    grid-template-columns: 1fr;
+  }
+.legacy-mypage .dashboard-history-list .historyrow{
+    grid-template-columns: 68px minmax(0, 1fr);
+  }
+.legacy-mypage .dashboard-history-list .hdate, .legacy-mypage .dashboard-history-list .hbuttons{
+    grid-column: 2;
+  }
+.legacy-mypage .exception-times{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+.legacy-mypage .calendar .calday .tooltip{
+    left: auto;
+    right: 0;
+    top: 100%;
+  }}
+.legacy-mypage .product-grid .myreg-card{
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.legacy-mypage .product-grid .myreg-card .card__link{
+  display: block;
+  min-width: 0;
+}
+.legacy-mypage .product-grid .myreg-card .card__extra{
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 8px 10px 10px;
+  margin-top: auto;
+}
+.legacy-mypage .product-grid .myreg-card .card__extra .pill{
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 5px 7px;
+}
+.legacy-mypage .product-grid .myreg-card .card__extra .btn-gray{
+  flex: 0 0 auto;
+  min-width: 48px;
+  width: auto;
+  max-width: 48%;
+  padding: 6px 10px;
+  line-height: 1.3;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.legacy-mypage .product-grid .myreg-card .card__like{
+  display: none !important;
+}
+.legacy-mypage .weekly-availability{
+  margin-top: 32px;
+  border-top: 1px solid #e2e5e4;
+  padding-top: 26px;
+}
+.legacy-mypage .weekly-availability h2{
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.legacy-mypage .weekly-availability > p{
+  color: #737b77;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+.legacy-mypage .weekly-panel{
+  border: 1px solid #dfe5e1;
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+.legacy-mypage .weekly-day{
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 12px;
+  border-bottom: 1px solid #e8eae8;
+  padding: 12px 0;
+}
+.legacy-mypage .weekly-day:last-child{
+  border-bottom: 0;
+}
+.legacy-mypage .weekly-day > strong{
+  padding-top: 10px;
+}
+.legacy-mypage .weekly-slots{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+.legacy-mypage .weekly-slot{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.legacy-mypage .weekly-slot select{
+  width: 140px;
+  max-width: 38%;
+  padding: 10px;
+  border: 1px solid #dce3df;
+  border-radius: 5px;
+  background: #fff;
+  color: #2c3b34;
+}
+.legacy-mypage .weekly-slot .slot-remove{
+  border: 0;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+}
+.legacy-mypage .slot-add{
+  border: 0;
+  background: none;
+  color: #17603f;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.legacy-mypage .weekly-off{
+  font-size: 13px;
+  color: #929995;
+  padding: 8px 0;
+}
+.legacy-mypage .weekly-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 18px;
+}
+.legacy-mypage .weekly-bottom p{
+  font-size: 12px;
+  color: #7c8580;
+  line-height: 1.7;
+}
+.legacy-mypage .weekly-save, .legacy-mypage .schedule-confirm{
+  background: #075336;
+  border: 0;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+.legacy-mypage .schedule-overlay[hidden]{
+  display: none !important;
+}
+.legacy-mypage .schedule-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0005;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.legacy-mypage .schedule-modal-open{
+  overflow: hidden;
+}
+.legacy-mypage .schedule-dialog{
+  width: min(520px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 48px #0003;
+  padding: 24px;
+}
+.legacy-mypage .schedule-dialog-top{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.legacy-mypage .schedule-dialog h2{
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+.legacy-mypage .schedule-dialog-top p, .legacy-mypage .schedule-popup-note{
+  font-size: 12px;
+  color: #777;
+  line-height: 1.7;
+}
+.legacy-mypage .schedule-close{
+  background: none;
+  border: 0;
+  font-size: 28px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.legacy-mypage .schedule-dayoff{
+  display: block;
+  border-bottom: 1px solid #e7eae7;
+  padding: 16px 0;
+  font-size: 14px;
+}
+.legacy-mypage .schedule-dayoff input{
+  accent-color: #075336;
+}
+.legacy-mypage .schedule-legend{
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: #737d77;
+  margin: 16px 0;
+}
+.legacy-mypage .schedule-legend span:before{
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: #e4f2e9;
+  margin-right: 5px;
+}
+.legacy-mypage .schedule-legend span:nth-child(2):before{
+  background: #f0f0f0;
+}
+.legacy-mypage .schedule-legend span:nth-child(3):before{
+  background: #f6dcc2;
+}
+.legacy-mypage .schedule-popup-times h3{
+  font-size: 14px;
+  margin: 12px 0;
+}
+.legacy-mypage .schedule-time-grid{
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px;
+}
+.legacy-mypage .time-chip{
+  padding: 8px 1px;
+  border: 1px solid #d7e2db;
+  border-radius: 4px;
+  background: #e5f2e9;
+  color: #135a3d;
+  font-size: 11px;
+  cursor: pointer;
+}
+.legacy-mypage .time-chip.blocked, .legacy-mypage .all-off .time-chip{
+  background: #f3f4f3;
+  color: #a1a5a1;
+  border-color: #e6e8e6;
+}
+.legacy-mypage .schedule-popup-note{
+  margin: 15px 0;
+}
+.legacy-mypage .schedule-dialog-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.legacy-mypage .schedule-cancel{
+  padding: 10px 22px;
+  border: 1px solid #d9dfdc;
+  background: #f6f7f6;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.legacy-mypage .schedule-day-clickable{
+  cursor: pointer;
+}
+.legacy-mypage .schedule-day-clickable:focus-visible{
+  outline: 2px solid #075336;
+  outline-offset: 2px;
+}
+@media  (max-width: 620px) {.legacy-mypage .weekly-day{
+    grid-template-columns: 28px 1fr;
+  }
+.legacy-mypage .weekly-slot{
+    gap: 6px;
+  }
+.legacy-mypage .weekly-slot select{
+    width: 100px;
+  }
+.legacy-mypage .schedule-time-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+.legacy-mypage .schedule-dialog{
+    padding: 16px;
+  }}
+.legacy-mypage .myreg-card .card__like, .legacy-mypage .myreg-card .card__btn, .legacy-mypage .dashboard-products .card--NoProfile .card__like, .legacy-mypage .dashboard-products .card--NoProfile .card__btn{
+  display: none !important;
+}
+.legacy-mypage .calmini .calmonth{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.legacy-mypage .calmini .calendar-month-control{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.legacy-mypage .calmini .calendar-month-control strong{
+  font-size: 17px;
+  min-width: 112px;
+  text-align: center;
+}
+.legacy-mypage .calmini .month-arrow, .legacy-mypage .calendar-toolbar .month-arrow{
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #d9dde2;
+  border-radius: 7px;
+  background: #fff;
+}
+.legacy-mypage .calmini .month-arrow img, .legacy-mypage .calendar-toolbar .month-arrow img{
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.legacy-mypage .calmini .month-arrow .chevron-prev, .legacy-mypage .calendar-toolbar .month-arrow .chevron-prev{
+  transform: rotate(180deg);
+}
+.legacy-mypage .calmini .today-button{
+  margin-left: auto;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9dde2;
+  border-radius: 7px;
+  background: #fff;
+}
+.legacy-mypage .schedule-overlay{
+  display: flex !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.45) !important;
+  z-index: 9999 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  overflow-y: auto !important;
+}
+.legacy-mypage .schedule-dialog{
+  position: relative !important;
+  max-height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+  width: min(720px, 100%) !important;
+  background: #fff !important;
+  border-radius: 16px !important;
+  padding: 28px !important;
+  box-sizing: border-box !important;
+}
+.legacy-mypage .schedule-close, .legacy-mypage .schedule-cancel, .legacy-mypage .schedule-confirm{
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.legacy-mypage .calendar-popup-link{
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+.legacy-mypage .calendar-popup-link:hover, .legacy-mypage .calendar-popup-link:focus{
+  background: #e9f4e7;
+}
+.legacy-mypage .schedule-preview-link{
+  display: inline-block;
+  margin: 12px 0;
+  color: #327a43;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legacy-mypage .slot-check{
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.legacy-mypage .slot-check + .time-chip{
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.legacy-mypage .slot-check:checked + .time-chip{
+  background: #e9f5e9;
+  border-color: #8bbd94;
+  color: #266338;
+}
+.legacy-mypage .slot-check:not(:checked) + .time-chip{
+  background: #f3f3f3;
+  border-color: #ddd;
+  color: #888;
+}
+.legacy-mypage .slot-check:focus-visible + .time-chip{
+  outline: 2px solid #266338;
+  outline-offset: 2px;
+}
+.legacy-mypage .page{width:min(1280px,calc(100% - 64px));margin:0 auto 58px}.legacy-mypage .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.legacy-mypage .grid4 article{min-width:0}.legacy-mypage .status-note{padding:16px;color:#777}.legacy-mypage .error-note{color:#b3261e;padding:12px}.legacy-mypage .calgrid .mini-weekday{text-align:center}.legacy-mypage .calgrid .day-cell{min-height:58px;position:relative}.legacy-mypage .calgrid .day-cell i,.legacy-mypage .calgrid .day-cell em{display:inline-block;font-size:11px;margin:1px}.legacy-mypage .schedule-time-grid button{cursor:pointer}.legacy-mypage .schedule-time-grid button:disabled{cursor:not-allowed;opacity:.55}.legacy-mypage .mp-actions{display:flex;gap:10px;flex-wrap:wrap}.legacy-mypage .mp-actions button{cursor:pointer}.legacy-mypage .mp-pagination{margin-top:24px}.legacy-mypage .profile-edit{margin-top:10px;display:flex;gap:8px;align-items:center}.legacy-mypage .profile-edit input{border:1px solid #ddd;padding:8px}.legacy-mypage .schedule-overlay{position:fixed;z-index:1000}.legacy-mypage .schedule-dialog{max-height:90vh;overflow:auto}.legacy-mypage .calendar .calday{cursor:pointer}.legacy-mypage .card-grid-item{min-width:0}.legacy-mypage .receipt .back{display:inline-flex;align-items:center;justify-content:center}.legacy-mypage .calmini .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+
+/* React calendar: preserve the compact original dashboard grid and status marks. */
+.legacy-mypage .calmini .calgrid .day-cell {
+  box-sizing: border-box; min-height: 58px; overflow: hidden;
+}
+.legacy-mypage .calmini .calgrid .day-cell .purchase,
+.legacy-mypage .calmini .calgrid .day-cell .sale {
+  display: inline-block; font-size: 11px; line-height: 1.3;
+  padding: 2px 3px; margin: 1px; border-radius: 2px;
+}
+.legacy-mypage .calmini .calgrid .day-cell .purchase { background: #e9f5e9; color: #267443; }
+.legacy-mypage .calmini .calgrid .day-cell .sale { background: #fef0df; color: #a15d20; }
+.legacy-mypage .schedule-overlay { display: flex !important; }
+@media (max-width: 800px) {
+  .legacy-mypage .page { width: calc(100% - 32px); grid-template-columns: 1fr; gap: 12px; }
+  .legacy-mypage .side { min-height: 0; border-right: 0; border-bottom: 1px solid #ddd; padding: 8px 0; }
+  .legacy-mypage .side nav { flex-direction: row; flex-wrap: wrap; }
+  .legacy-mypage .side a { white-space: normal; }
+  .legacy-mypage .grid4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* Past time slots are visible but not editable. */
+.legacy-mypage .schedule-time-grid button.past { opacity: .48; cursor: not-allowed; }

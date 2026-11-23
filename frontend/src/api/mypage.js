@@ -1,0 +1,13 @@
+import {api} from './client';
+const q=o=>{const s=new URLSearchParams();Object.entries(o).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=='')s.set(k,v)});return '?'+s.toString()};
+export const myProfile=()=>api.get('/users/me');
+export const changeNickname=nickname=>api.patch('/users/me/nickname',{nickname});
+export const changeProfileImage=file=>{const body=new FormData();body.append('image',file);return api.patch('/users/me/profile-image',body)};
+export const myLikes=({limit=8,cursor}={})=>api.get('/users/me/likes'+q({limit,cursor}));
+export const myProducts=({sellerId,limit=8,cursor,sort='newest'}={})=>api.get('/products'+q({sellerId,limit,cursor,sort}));
+export const myReviews=({sort='latest',page=1,limit=5}={})=>api.get('/users/me/reviews'+q({sort,page,limit}));
+export const myOrders=({role,month,limit=20,cursor}={})=>api.get('/orders'+q({role,month,limit,cursor}));
+export const mySchedule=month=>api.get('/schedules/me'+q({month}));
+export const saveWeekly=weekly=>api.put('/schedules/me/weekly',{weekly});
+export const saveBlocked=(date,blocked)=>api.put(`/schedules/me/exceptions/${date}`,{blocked});
+export const myBadges=()=>api.get('/badges/me');
