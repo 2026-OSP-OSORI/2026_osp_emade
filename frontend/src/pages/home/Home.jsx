@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "../../components/Card/Card";
 import { getPopularProducts, getProducts } from "../../api/products";
 import styles from "./Home.module.css";
-
-// 배너 이미지
-const BANNER_IMAGE = "/img/banner.png";
+import bannerImage from "../../assets/img/banner.png"; //배너 이미지 import
 
 // 응답이 배열이든 { products: [...] } / { items: [...] } 든 배열로 맞추기
 const toList = (data) =>
@@ -15,6 +13,11 @@ const toList = (data) =>
 
 const POPULAR_COUNT = 6;
 const RECOMMEND_COUNT = 4;
+
+// 인기 상품: GET /products/popular (기본 3개라 limit 6 을 꼭 넘김)
+const fetchPopular = () => getPopularProducts({ limit: POPULAR_COUNT });
+// 추천 상품: 추천 API 가 없어서 상품 목록(최신순) 앞 4개
+const fetchRecommended = () => getProducts({ limit: RECOMMEND_COUNT });
 
 // 상품 불러오기 — 실패하면 빈 목록
 function useProducts(fetchProducts, count) {
@@ -34,10 +37,10 @@ function useProducts(fetchProducts, count) {
 }
 
 export default function Home() {
-  const popular = useProducts(getPopularProducts, POPULAR_COUNT);
+  const popular = useProducts(fetchPopular, POPULAR_COUNT);
 
   // 추천 API 없음 → 상품 목록 앞 4개
-  const recommended = useProducts(getProducts, RECOMMEND_COUNT);
+  const recommended = useProducts(fetchRecommended, RECOMMEND_COUNT);
 
   // 배너 이미지를 못 불러오면 숨기기
   const [bannerFailed, setBannerFailed] = useState(false);
@@ -61,7 +64,7 @@ export default function Home() {
         {!bannerFailed && (
           <img
             className={styles.bannerImage}
-            src={BANNER_IMAGE}
+            src={bannerImage}
             alt=""
             onError={() => setBannerFailed(true)}
           />
