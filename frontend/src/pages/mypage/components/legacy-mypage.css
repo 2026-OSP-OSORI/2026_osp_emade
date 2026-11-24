@@ -324,7 +324,7 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
 }
-.legacy-mypage .calgrid div{
+.legacy-mypage .calgrid > .day-cell{
   height: 56px;
   border: 1px solid #e2e5e8;
   border-radius: 7px;
@@ -1972,7 +1972,7 @@
   outline: 2px solid #266338;
   outline-offset: 2px;
 }
-.legacy-mypage .page{width:min(1280px,calc(100% - 64px));margin:0 auto 58px}.legacy-mypage .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.legacy-mypage .grid4 article{min-width:0}.legacy-mypage .status-note{padding:16px;color:#777}.legacy-mypage .error-note{color:#b3261e;padding:12px}.legacy-mypage .calgrid .mini-weekday{text-align:center}.legacy-mypage .calgrid .day-cell{min-height:58px;position:relative}.legacy-mypage .calgrid .day-cell i,.legacy-mypage .calgrid .day-cell em{display:inline-block;font-size:11px;margin:1px}.legacy-mypage .schedule-time-grid button{cursor:pointer}.legacy-mypage .schedule-time-grid button:disabled{cursor:not-allowed;opacity:.55}.legacy-mypage .mp-actions{display:flex;gap:10px;flex-wrap:wrap}.legacy-mypage .mp-actions button{cursor:pointer}.legacy-mypage .mp-pagination{margin-top:24px}.legacy-mypage .profile-edit{margin-top:10px;display:flex;gap:8px;align-items:center}.legacy-mypage .profile-edit input{border:1px solid #ddd;padding:8px}.legacy-mypage .schedule-overlay{position:fixed;z-index:1000}.legacy-mypage .schedule-dialog{max-height:90vh;overflow:auto}.legacy-mypage .calendar .calday{cursor:pointer}.legacy-mypage .card-grid-item{min-width:0}.legacy-mypage .receipt .back{display:inline-flex;align-items:center;justify-content:center}.legacy-mypage .calmini .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.legacy-mypage .page{width:min(1280px,calc(100% - 64px));margin:0 auto 58px}.legacy-mypage .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.legacy-mypage .grid4 article{min-width:0}.legacy-mypage .status-note{padding:16px;color:#777}.legacy-mypage .error-note{padding:60px 0;font-size:16px;text-align:center;color:#000}.legacy-mypage .calgrid .mini-weekday{text-align:center}.legacy-mypage .calgrid .day-cell{min-height:58px;position:relative}.legacy-mypage .calgrid .day-cell i,.legacy-mypage .calgrid .day-cell em{display:inline-block;font-size:11px;margin:1px}.legacy-mypage .schedule-time-grid button{cursor:pointer}.legacy-mypage .schedule-time-grid button:disabled{cursor:not-allowed;opacity:.55}.legacy-mypage .mp-actions{display:flex;gap:10px;flex-wrap:wrap}.legacy-mypage .mp-actions button{cursor:pointer}.legacy-mypage .mp-pagination{margin-top:24px}.legacy-mypage .profile-edit{margin-top:10px;display:flex;gap:8px;align-items:center}.legacy-mypage .profile-edit input{border:1px solid #ddd;padding:8px}.legacy-mypage .schedule-overlay{position:fixed;z-index:1000}.legacy-mypage .schedule-dialog{max-height:90vh;overflow:auto}.legacy-mypage .calendar .calday{cursor:pointer}.legacy-mypage .card-grid-item{min-width:0}.legacy-mypage .receipt .back{display:inline-flex;align-items:center;justify-content:center}.legacy-mypage .calmini .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
 
 /* React calendar: preserve the compact original dashboard grid and status marks. */
 .legacy-mypage .calmini .calgrid .day-cell {
@@ -1996,3 +1996,96 @@
 
 /* Past time slots are visible but not editable. */
 .legacy-mypage .schedule-time-grid button.past { opacity: .48; cursor: not-allowed; }
+
+/* Original FE range controls and status rows */
+.legacy-mypage .mp-review-seller{display:block;color:#777;font-size:12px;margin:4px 0;}
+.legacy-mypage .mp-stars{color:#d5a23a;letter-spacing:1px;}
+.legacy-mypage .mp-day-orders{font-size:13px;line-height:1.7;margin-bottom:12px;}
+.legacy-mypage .regstatus{margin-top:8px;}
+.legacy-mypage .weekly-slot select{min-width:0;}
+.legacy-mypage .weekly-slot button:disabled,.legacy-mypage .slot-add:disabled{opacity:.5;cursor:not-allowed;}
+
+.legacy-mypage .mp-past-day { background: #f2f2f2; color: #777; }
+.legacy-mypage .mp-pagination button { margin: 0 5px; }
+
+/* My-page-only visual alignment with the original HTML reference. */
+.legacy-mypage .profile-photo { flex: 0 0 96px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.legacy-mypage .avatar { display:grid; place-items:center; flex:none; }
+.legacy-mypage .photo-edit { position:relative; margin:0; padding:6px 10px; border:1px solid #dfe2e6; border-radius:4px; font-size:12px; cursor:pointer; white-space:nowrap; }
+.legacy-mypage .photo-edit input { position:absolute; inset:0; opacity:0; width:100%; height:100%; padding:0; cursor:pointer; }
+.legacy-mypage .photo-edit:focus-within { outline:2px solid #075336; outline-offset:2px; }
+.legacy-mypage .profile-edit { flex-wrap:wrap; }
+.legacy-mypage .profile-edit input:not([type=file]) { min-width:0; max-width:100%; border-radius:4px; }
+.legacy-mypage .dashboard-review-cards .reviewrow { display:flex; flex-direction:column; align-items:stretch; gap:10px; margin:0; padding:14px; min-width:0; border:1px solid #e5e9e7; border-radius:8px; }
+.legacy-mypage .dashboard-review-cards .reviewthumb { width:68px; height:68px; flex:none; }
+.legacy-mypage .dashboard-review-cards .reviewbody { flex:1; min-width:0; overflow-wrap:anywhere; }
+.legacy-mypage .dashboard-review-cards .reviewbody h3 { font-size:14px; margin:0; }
+.legacy-mypage .dashboard-review-cards .reviewbody p { font-size:12px; line-height:1.55; }
+.legacy-mypage .dashboard-review-cards .reviewedit { border-top:1px solid #edf0ee; padding-top:10px; text-align:center; font-size:12px; }
+/* Card uses CSS modules; scope by its stable accessible button labels. */
+.legacy-mypage .myreg-card button[aria-label="찜하기"],
+.legacy-mypage .myreg-card button[aria-label="찜 해제"] { display:none; }
+.legacy-mypage .myreg-card .regstatus { padding:0 8px; }
+.legacy-mypage .myreg-card .mp-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; padding:8px; margin-top:auto; }
+.legacy-mypage .myreg-card .mp-actions > *,
+.legacy-mypage .reviewedit > *,
+.legacy-mypage .hbuttons > a:not(.btn-green),
+.legacy-mypage .hbuttons > button:not(.btn-green),
+.legacy-mypage .receipt .mp-actions > a:not(.btn-green) { display:inline-flex; align-items:center; justify-content:center; text-align:center; border:1px solid #dfe2e6; background:#fff; color:#303944; border-radius:4px; padding:7px 10px; font-size:12px; text-decoration:none; }
+.legacy-mypage .filters { display:flex; flex-wrap:wrap; gap:8px 22px; }
+.legacy-mypage .filters button { background:transparent; border:0; padding:6px 4px; color:#777; cursor:pointer; }
+.legacy-mypage .filters button[aria-pressed=true] { color:#075336; font-weight:700; box-shadow:0 2px 0 #075336; }
+.legacy-mypage .filters button:disabled { cursor:not-allowed; opacity:.55; }
+.legacy-mypage .adjacent-day { color:#aeb5b1; background:#f8f9f8; cursor:default; }
+.legacy-mypage .calendar .calday .purchase,.legacy-mypage .calendar .calday .sale { display:inline-block; margin:2px; padding:3px 6px; border-radius:3px; font-size:11px; }
+.legacy-mypage .mp-pagination { display:flex; justify-content:center; margin:28px 0; }
+.legacy-mypage .mp-pagination > button { border:1px solid #dfe2e6; border-radius:5px; padding:9px 24px; background:#fff; color:#075336; cursor:pointer; }
+.legacy-mypage .mp-pagination > button:disabled { opacity:.5; cursor:not-allowed; }
+.legacy-mypage .receipt .mp-actions { margin-top:18px; }
+@media(max-width:620px) {
+ .legacy-mypage .profile { gap:12px; align-items:flex-start; }
+ .legacy-mypage .stats { gap:8px; flex-wrap:wrap; }
+ .legacy-mypage .stats span { padding-right:8px; }
+ .legacy-mypage .dashboard-review-cards { grid-template-columns:1fr; }
+ .legacy-mypage .myreg-card .mp-actions > * { padding:7px 3px; }
+}
+
+/* Original layout alignment; all selectors remain local to my page. */
+.legacy-mypage .sectionhead > a.btn-green,.legacy-mypage .mp-actions > a.btn-green,.legacy-mypage .hbuttons > a.btn-green {display:inline-flex;align-items:center;justify-content:center;text-decoration:none;white-space:nowrap;color:#fff;}
+.legacy-mypage .dashboard-review-product .reviewthumb {flex:0 0 68px;width:68px;height:68px;}
+.legacy-mypage .dashboard-review-card {overflow-wrap:anywhere;}
+.legacy-mypage .reviewbody {min-width:0;overflow-wrap:anywhere;}
+.legacy-mypage .mp-review-meta {display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.legacy-mypage .reviewedit > * {min-height:32px;box-sizing:border-box;}
+.legacy-mypage .calendar .calday.selected {outline:2px solid #075336;outline-offset:-2px;}
+.legacy-mypage .calendar .calday:hover .mp-calendar-tooltip,.legacy-mypage .calendar .calday:focus-within .mp-calendar-tooltip {display:block;pointer-events:none;}
+.legacy-mypage .calendar .calday:hover,.legacy-mypage .calendar .calday:focus-within {z-index:6;}
+.legacy-mypage .calendar .calday:nth-child(7n),.legacy-mypage .calendar .calday:nth-child(7n - 1),.legacy-mypage .calendar .calday:nth-child(7n - 2) {--mp-tooltip-right:1;}
+.legacy-mypage .calendar .calday:nth-child(7n) .mp-calendar-tooltip,.legacy-mypage .calendar .calday:nth-child(7n - 1) .mp-calendar-tooltip,.legacy-mypage .calendar .calday:nth-child(7n - 2) .mp-calendar-tooltip {left:auto;right:calc(100% + 8px);}
+.legacy-mypage .mp-calendar-tooltip {max-height:280px;overflow:hidden;}
+.legacy-mypage .mp-calendar-tooltip .tooltip-detail {min-width:0;overflow-wrap:anywhere;}
+@media(max-width:800px){.legacy-mypage .dashboard-history-list .historyrow{grid-template-columns:78px minmax(0,1fr);}.legacy-mypage .dashboard-history-list .hdate,.legacy-mypage .dashboard-history-list .hbuttons{grid-column:2;}.legacy-mypage .calendar .calday .mp-calendar-tooltip{left:0;right:auto;width:220px;max-width:65vw;}.legacy-mypage .calendar .calday:nth-child(7n) .mp-calendar-tooltip,.legacy-mypage .calendar .calday:nth-child(7n - 1) .mp-calendar-tooltip,.legacy-mypage .calendar .calday:nth-child(7n - 2) .mp-calendar-tooltip{left:auto;right:0;}}
+
+/* Original layout alignment; mypage only. */
+.legacy-mypage .month-arrow svg {display:block; flex:none;}
+.legacy-mypage .myreg-card .regstatus {padding:8px 10px 0;}
+.legacy-mypage .myreg-card .mp-actions {padding:8px 10px 10px;}
+.legacy-mypage .myreg-card .mp-actions > * {min-width:0;white-space:nowrap;}
+.legacy-mypage .schedule-dialog-top > div {min-width:0;}
+.legacy-mypage .schedule-dialog-top .schedule-popup-note {margin:6px 0 0;}
+.legacy-mypage .reviewedit {align-items:center;}
+
+/* Restore original registered-product footer within a single visual card. */
+.legacy-mypage .product-grid .myreg-card {border:2px solid var(--color-border-default,#dfe2e6);border-radius:var(--radius-sm,6px);background:var(--color-bg-default,#fff);overflow:hidden;}
+.legacy-mypage .product-grid .myreg-card > article {border:0;width:100%;height:auto;min-height:0;box-sizing:border-box;border-radius:0;}
+.legacy-mypage .product-grid .myreg-card > article > a {height:auto;}
+.legacy-mypage .product-grid .myreg-card .card__extra {flex-wrap:wrap;gap:6px;padding:8px 10px 10px;}
+.legacy-mypage .product-grid .myreg-card .regstatus {padding:0;}
+.legacy-mypage .product-grid .myreg-card .mp-actions {display:flex;flex-wrap:wrap;padding:0;margin:0 0 0 auto;gap:5px;}
+.legacy-mypage .product-grid .myreg-card .mp-actions > * {max-width:none;min-width:42px;padding:6px 8px;}
+.legacy-mypage .dashboard-review-product > .reviewthumb {display:block;overflow:hidden;}
+.legacy-mypage .dashboard-review-product > .reviewthumb img {display:block;}
+
+/* Mini calendar: only date cells have borders, not weekday labels or nested tags. */
+.legacy-mypage .calgrid > .mini-weekday{height:auto;padding:7px;font-size:12px;border:0;}
+.legacy-mypage .calgrid .day-tags{height:auto;border:0;padding:0;}
