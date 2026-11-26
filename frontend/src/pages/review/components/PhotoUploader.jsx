@@ -1,4 +1,5 @@
 // 사진 첨부 (최대 5장) — 기존 사진(URL)과 새로 고른 사진(File)을 함께 다룹니다.
+//   올릴 수 있는 사진: JPEG · PNG · GIF · WebP, 한 장당 10MB 이하 (API 명세 공통 규칙)
 //   photos: [{ key, url, file? }]   file 이 있으면 새 사진, 없으면 기존 사진
 //   onChange(nextPhotos)
 import { useEffect, useRef } from "react";
@@ -7,6 +8,8 @@ import closeIcon from "../../../assets/svg/close-circle.svg";
 import styles from "./PhotoUploader.module.css";
 
 export const MAX_PHOTOS = 5;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 let nextKey = 0;
 
@@ -20,7 +23,9 @@ export default function PhotoUploader({ photos, onChange, onError }) {
   // 화면을 떠날 때 미리보기용 주소 정리 (메모리 누수 방지)
   useEffect(
     () => () => {
-      photosRef.current.forEach((photo) => photo.file && URL.revokeObjectURL(photo.url));
+      photosRef.current.forEach(
+        (photo) => photo.file && URL.revokeObjectURL(photo.url),
+      );
     },
     [],
   );
@@ -29,11 +34,17 @@ export default function PhotoUploader({ photos, onChange, onError }) {
     const files = Array.from(e.target.files ?? []);
     e.target.value = ""; // 같은 사진을 다시 골라도 선택되게
 
-    const images = files.filter((file) => file.type.startsWith("image/"));
-    if (images.length < files.length) onError?.("*이미지 파일만 올릴 수 있어요.");
+    // 서버가 받지 않는 사진은 미리 걸러서 안내 (문구는 서버 INVALID_IMAGE_FILE 과 같게)
+    const typeOk = files.filter((file) => ALLOWED_TYPES.includes(file.type));
+    const images = typeOk.filter((file) => file.size <= MAX_FILE_SIZE);
+    if (typeOk.length < files.length)
+      onError?.("*JPEG, PNG, GIF, WebP 이미지를 등록해주세요.");
+    else if (images.length < typeOk.length)
+      onError?.("*이미지는 파일당 10MB까지 등록할 수 있어요.");
 
     const room = MAX_PHOTOS - photos.length;
-    if (images.length > room) onError?.(`*사진은 최대 ${MAX_PHOTOS}장까지 올릴 수 있어요.`);
+    if (images.length > room)
+      onError?.(`*사진은 최대 ${MAX_PHOTOS}장까지 올릴 수 있어요.`);
 
     const added = images.slice(0, Math.max(room, 0)).map((file) => ({
       key: `new-${nextKey++}`,
@@ -69,7 +80,7 @@ export default function PhotoUploader({ photos, onChange, onError }) {
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept={ALLOWED_TYPES.join(",")}
           multiple
           hidden
           onChange={handleSelect}
