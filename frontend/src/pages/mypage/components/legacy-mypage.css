@@ -1972,7 +1972,7 @@
   outline: 2px solid #266338;
   outline-offset: 2px;
 }
-.legacy-mypage .page{width:min(1280px,calc(100% - 64px));margin:0 auto 58px}.legacy-mypage .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.legacy-mypage .grid4 article{min-width:0}.legacy-mypage .status-note{padding:16px;color:#777}.legacy-mypage .error-note{color:#b3261e;padding:12px}.legacy-mypage .calgrid .mini-weekday{text-align:center}.legacy-mypage .calgrid .day-cell{min-height:58px;position:relative}.legacy-mypage .calgrid .day-cell i,.legacy-mypage .calgrid .day-cell em{display:inline-block;font-size:11px;margin:1px}.legacy-mypage .schedule-time-grid button{cursor:pointer}.legacy-mypage .schedule-time-grid button:disabled{cursor:not-allowed;opacity:.55}.legacy-mypage .mp-actions{display:flex;gap:10px;flex-wrap:wrap}.legacy-mypage .mp-actions button{cursor:pointer}.legacy-mypage .mp-pagination{margin-top:24px}.legacy-mypage .profile-edit{margin-top:10px;display:flex;gap:8px;align-items:center}.legacy-mypage .profile-edit input{border:1px solid #ddd;padding:8px}.legacy-mypage .schedule-overlay{position:fixed;z-index:1000}.legacy-mypage .schedule-dialog{max-height:90vh;overflow:auto}.legacy-mypage .calendar .calday{cursor:pointer}.legacy-mypage .card-grid-item{min-width:0}.legacy-mypage .receipt .back{display:inline-flex;align-items:center;justify-content:center}.legacy-mypage .calmini .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.legacy-mypage .page{width:min(1280px,calc(100% - 64px));margin:0 auto 58px}.legacy-mypage .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.legacy-mypage .grid4 article{min-width:0}.legacy-mypage .status-note{padding:16px;color:#777}.legacy-mypage .error-note{color:#222;padding:12px}.legacy-mypage .calgrid .mini-weekday{text-align:center}.legacy-mypage .calgrid .day-cell{min-height:58px;position:relative}.legacy-mypage .calgrid .day-cell i,.legacy-mypage .calgrid .day-cell em{display:inline-block;font-size:11px;margin:1px}.legacy-mypage .schedule-time-grid button{cursor:pointer}.legacy-mypage .schedule-time-grid button:disabled{cursor:not-allowed;opacity:.55}.legacy-mypage .mp-actions{display:flex;gap:10px;flex-wrap:wrap}.legacy-mypage .mp-actions button{cursor:pointer}.legacy-mypage .mp-pagination{margin-top:24px}.legacy-mypage .profile-edit{margin-top:10px;display:flex;gap:8px;align-items:center}.legacy-mypage .profile-edit input{border:1px solid #ddd;padding:8px}.legacy-mypage .schedule-overlay{position:fixed;z-index:1000}.legacy-mypage .schedule-dialog{max-height:90vh;overflow:auto}.legacy-mypage .calendar .calday{cursor:pointer}.legacy-mypage .card-grid-item{min-width:0}.legacy-mypage .receipt .back{display:inline-flex;align-items:center;justify-content:center}.legacy-mypage .calmini .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
 
 /* React calendar: preserve the compact original dashboard grid and status marks. */
 .legacy-mypage .calmini .calgrid .day-cell {
@@ -1996,3 +1996,40 @@
 
 /* Past time slots are visible but not editable. */
 .legacy-mypage .schedule-time-grid button.past { opacity: .48; cursor: not-allowed; }
+
+/* My page filter tabs: text and active underline, not boxed buttons. */
+.legacy-mypage .filters{display:flex;align-items:stretch;gap:0;padding:0;border-bottom:1px solid #ddd;margin-bottom:24px;}
+.legacy-mypage .filters button{appearance:none;background:transparent;border:0;border-radius:0;border-bottom:3px solid transparent;color:#666;font:inherit;padding:14px 20px;margin-bottom:-1px;cursor:pointer;min-width:80px;}
+.legacy-mypage .filters button[aria-pressed="true"]{color:#171717;border-bottom-color:#00462e;}
+.legacy-mypage .filters button:focus-visible{outline:2px solid #17603f;outline-offset:-3px;}
+.legacy-mypage .weekly-save:disabled,.legacy-mypage .slot-add:disabled,.legacy-mypage .slot-remove:disabled{opacity:.5;cursor:not-allowed;}
+
+/* Date exception dialog — scoped visual overrides */
+.legacy-mypage .schedule-dialog{width:min(480px,100%);padding:22px;border-radius:12px;box-sizing:border-box;max-height:90vh;overflow:auto;}
+.legacy-mypage .schedule-dialog-top{align-items:flex-start;gap:12px;}
+.legacy-mypage .schedule-dialog h2{font-size:18px;line-height:1.4;}
+.legacy-mypage .schedule-dayoff{position:relative;display:flex;align-items:center;justify-content:space-between;background:#f7f8f7;border:1px solid #e5e7e5;border-radius:6px;padding:12px;margin-top:14px;cursor:pointer;}
+.legacy-mypage .schedule-dayoff input{position:absolute;right:12px;width:36px;height:20px;opacity:0;cursor:pointer;}
+.legacy-mypage .schedule-switch{width:36px;height:20px;background:#c9cecb;border-radius:20px;position:relative;pointer-events:none;}
+.legacy-mypage .schedule-switch:after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;background:white;border-radius:50%;transition:transform .15s;}
+.legacy-mypage .schedule-dayoff input:checked + .schedule-switch{background:#00462e;}
+.legacy-mypage .schedule-dayoff input:checked + .schedule-switch:after{transform:translateX(16px);}
+.legacy-mypage .schedule-dayoff input:focus-visible + .schedule-switch{outline:2px solid #00462e;outline-offset:3px;}
+.legacy-mypage .schedule-legend{gap:8px 12px;margin:14px 0;color:#555;}
+.legacy-mypage .schedule-legend span:before{background:#e6f1fa;border:1px solid #c4d9eb;}
+.legacy-mypage .schedule-legend span:nth-child(2):before{background:#fff;border:1px dashed #819db5;}
+.legacy-mypage .schedule-legend span:nth-child(3):before{background:#ffe5cc;border-color:#efc9a4;}
+.legacy-mypage .schedule-legend span:nth-child(4):before{background:#f1f2f2;border-color:#ddd;}
+.legacy-mypage .schedule-time-grid{display:flex;flex-direction:column;gap:12px;}
+.legacy-mypage .schedule-period h4{font-size:12px;font-weight:500;margin:0 0 6px;color:#555;}
+.legacy-mypage .schedule-period-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;}
+.legacy-mypage .schedule-time-grid .time-chip{min-width:0;padding:7px 0;font-size:11px;border:1px solid #c4d9eb;background:#e6f1fa;color:#243e52;border-radius:4px;}
+.legacy-mypage .schedule-time-grid .time-chip.blocked{background:white;border:1px dashed #819db5;color:#526b80;}
+.legacy-mypage .schedule-time-grid .time-chip.reserved{background:#ffe5cc;border-color:#efc9a4;color:#805020;}
+.legacy-mypage .schedule-time-grid .time-chip.past,.legacy-mypage .schedule-time-grid .time-chip.unset{background:#f1f2f2;border-color:#e2e4e4;color:#777;opacity:1;}
+.legacy-mypage .schedule-time-grid .time-chip:disabled{cursor:not-allowed;}
+.legacy-mypage .schedule-time-grid .time-chip:focus-visible{outline:2px solid #00462e;outline-offset:1px;}
+.legacy-mypage .schedule-dialog-actions{justify-content:center;gap:10px;}
+.legacy-mypage .schedule-dialog-actions button{width:132px;padding:10px 0;}
+.legacy-mypage .schedule-confirm{background:#00462e;}
+@media(max-width:480px){.legacy-mypage .schedule-period-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
